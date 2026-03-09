@@ -144,8 +144,9 @@ export function AppLayout({ children }: AppLayoutProps) {
               size="icon"
               className="lg:hidden"
               onClick={() => setSidebarOpen(false)}
+              aria-label="Close sidebar menu"
             >
-              <X className="h-5 w-5" />
+              <X className="h-5 w-5" aria-hidden="true" />
             </Button>
           </div>
 
