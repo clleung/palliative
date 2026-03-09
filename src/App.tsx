@@ -15,6 +15,7 @@ import Hours from "./pages/Hours";
 import Deliveries from "./pages/Deliveries";
 import Settings from "./pages/Settings";
 import RobotFleet from "./pages/RobotFleet";
+import AdminSpecialists from "./pages/AdminSpecialists";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
