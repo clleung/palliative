@@ -155,7 +155,7 @@ export function AppLayout({ children }: AppLayoutProps) {
                 )}
               >
                 <Smartphone className="h-3.5 w-3.5" />
-                Field Worker
+                Specialist
               </button>
               <button
                 onClick={() => setViewMode("admin")}
