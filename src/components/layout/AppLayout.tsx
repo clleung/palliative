@@ -96,11 +96,12 @@ export function AppLayout({ children }: AppLayoutProps) {
               size="icon"
               className="touch-target"
               onClick={() => setViewMode(isAdmin ? "field" : "admin")}
+              aria-label={isAdmin ? "Switch to field view" : "Switch to admin view"}
             >
-              {isAdmin ? <Smartphone className="h-4 w-4" /> : <Monitor className="h-4 w-4" />}
+              {isAdmin ? <Smartphone className="h-4 w-4" aria-hidden="true" /> : <Monitor className="h-4 w-4" aria-hidden="true" />}
             </Button>
-            <Button variant="ghost" size="icon" className="touch-target" onClick={() => setWellnessOpen(true)}>
-              <Heart className="h-5 w-5 text-primary" />
+            <Button variant="ghost" size="icon" className="touch-target" onClick={() => setWellnessOpen(true)} aria-label="Open wellness check-in">
+              <Heart className="h-5 w-5 text-primary" aria-hidden="true" />
             </Button>
           </div>
         </div>
