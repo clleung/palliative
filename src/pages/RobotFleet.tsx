@@ -14,8 +14,10 @@ import {
   Bell,
   Zap,
   ChevronRight,
-  Filter
+  Filter,
+  Map
 } from "lucide-react";
+import { RobotLocationMap } from "@/components/robots/RobotLocationMap";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
