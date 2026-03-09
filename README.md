@@ -72,6 +72,7 @@ To connect a domain, navigate to Project > Settings > Domains and click Connect 
 
 Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
 
+### Initial Project Created as Part of SheBuilds 2026 on March 8, 2026
 **To Do**
 - add at-home robot fleet management to admin
 - add tasks for delivering and checking in with records from at-home robots
