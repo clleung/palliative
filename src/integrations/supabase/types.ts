@@ -14,16 +14,90 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      user_roles: {
+        Row: {
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
+      worker_profiles: {
+        Row: {
+          avatar_url: string | null
+          biometric_enrolled: boolean | null
+          certifications: string[] | null
+          created_at: string
+          department: string | null
+          display_name: string
+          id: string
+          job_title: string | null
+          last_login_at: string | null
+          mfa_enrolled: boolean | null
+          phone: string | null
+          updated_at: string
+          user_id: string
+          worker_id: string
+        }
+        Insert: {
+          avatar_url?: string | null
+          biometric_enrolled?: boolean | null
+          certifications?: string[] | null
+          created_at?: string
+          department?: string | null
+          display_name: string
+          id?: string
+          job_title?: string | null
+          last_login_at?: string | null
+          mfa_enrolled?: boolean | null
+          phone?: string | null
+          updated_at?: string
+          user_id: string
+          worker_id: string
+        }
+        Update: {
+          avatar_url?: string | null
+          biometric_enrolled?: boolean | null
+          certifications?: string[] | null
+          created_at?: string
+          department?: string | null
+          display_name?: string
+          id?: string
+          job_title?: string | null
+          last_login_at?: string | null
+          mfa_enrolled?: boolean | null
+          phone?: string | null
+          updated_at?: string
+          user_id?: string
+          worker_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "admin" | "nurse" | "cna" | "coordinator" | "supervisor"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +224,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["admin", "nurse", "cna", "coordinator", "supervisor"],
+    },
   },
 } as const
