@@ -232,7 +232,7 @@ export default function Login() {
                 </div>
 
                 {error && (
-                  <p className="text-sm text-destructive bg-destructive/10 p-2.5 rounded-lg">{error}</p>
+                  <p className="text-sm text-destructive bg-destructive/10 p-2.5 rounded-lg" role="alert">{error}</p>
                 )}
 
                 <Button type="submit" className="w-full">
