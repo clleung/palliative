@@ -7,7 +7,11 @@ import { QuickActions } from "@/components/dashboard/QuickActions";
 import { DeliveryStatus } from "@/components/dashboard/DeliveryStatus";
 import { PriorityAlerts } from "@/components/dashboard/PriorityAlerts";
 import { RobotFleetWidget } from "@/components/robots/RobotDispatch";
+import { PatientDetailPanel } from "@/components/patients/PatientDetailPanel";
 import { cn } from "@/lib/utils";
+import { findPatientByName, type Patient } from "@/data/patients";
+import { getMockConditions } from "@/components/patients/PatientConditionIcons";
+import { getMockVitals } from "@/components/patients/PatientVitals";
 
 function CollapsibleSection({
   title,
@@ -65,9 +69,22 @@ function CollapsibleSection({
 }
 
 export default function Dashboard() {
+  const [selectedPatient, setSelectedPatient] = useState<Patient | null>(null);
+  
   const currentHour = new Date().getHours();
   const greeting =
     currentHour < 12 ? "Good morning" : currentHour < 17 ? "Good afternoon" : "Good evening";
+
+  const handlePatientClick = (patientFullName: string) => {
+    const patient = findPatientByName(patientFullName);
+    if (patient) {
+      setSelectedPatient({
+        ...patient,
+        conditions: getMockConditions(patient.name),
+        vitals: getMockVitals(patient.name),
+      });
+    }
+  };
 
   return (
     <div className="space-y-4 animate-fade-in" role="main">
@@ -85,10 +102,10 @@ export default function Dashboard() {
       <DashboardStats />
       <PriorityAlerts />
       
-      {/* Robot Fleet Widget - for specialists to dispatch robots */}
+      {/* Robot Fleet Widget */}
       <RobotFleetWidget />
       
-      <TodaySchedule />
+      <TodaySchedule onPatientClick={handlePatientClick} />
 
       <CollapsibleSection title="Deliveries" icon={Truck} badge="2 active">
         <DeliveryStatus />
@@ -101,6 +118,14 @@ export default function Dashboard() {
       <CollapsibleSection title="All Tasks" icon={ListChecks} badge="4 pending">
         <TaskSummary />
       </CollapsibleSection>
+
+      {/* Patient detail panel overlay */}
+      {selectedPatient && (
+        <PatientDetailPanel
+          patient={selectedPatient}
+          onClose={() => setSelectedPatient(null)}
+        />
+      )}
     </div>
   );
 }

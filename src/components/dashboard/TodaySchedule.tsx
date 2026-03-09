@@ -7,7 +7,11 @@ import { todayVisits } from "@/data/visits";
 import { PatientConditionIcons, getMockConditions } from "@/components/patients/PatientConditionIcons";
 import { PatientVitals, getMockVitals } from "@/components/patients/PatientVitals";
 
-export function TodaySchedule() {
+interface TodayScheduleProps {
+  onPatientClick?: (patientFullName: string) => void;
+}
+
+export function TodaySchedule({ onPatientClick }: TodayScheduleProps) {
   return (
     <div className="card-elevated overflow-hidden" role="region" aria-labelledby="schedule-heading">
       <div className="px-5 py-3 border-b border-border">
@@ -53,9 +57,13 @@ export function TodaySchedule() {
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center justify-between gap-2">
                     <div className="flex items-center gap-2 flex-wrap">
-                      <h3 className="font-semibold text-sm text-foreground">
+                      <button
+                        className="font-semibold text-sm text-foreground hover:text-primary hover:underline transition-colors text-left"
+                        onClick={() => onPatientClick?.(visit.patientFullName)}
+                        aria-label={`View details for ${abbreviateName(visit.patientFullName)}`}
+                      >
                         {abbreviateName(visit.patientFullName)}
-                      </h3>
+                      </button>
                       {conditions.length > 0 && (
                         <PatientConditionIcons conditions={conditions} size="sm" />
                       )}
