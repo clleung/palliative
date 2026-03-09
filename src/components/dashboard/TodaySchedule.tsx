@@ -3,82 +3,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { abbreviateName } from "@/lib/privacy";
-
-interface Visit {
-  id: string;
-  time: string;
-  patientFullName: string;
-  city: string;
-  zip: string;
-  visitType: string;
-  status: "completed" | "current" | "upcoming";
-  priority?: "urgent" | "attention";
-  notes?: string;
-  travelMinFromPrior: number | null;
-  estimatedMinAtLocation: number;
-}
-
-const todayVisits: Visit[] = [
-  {
-    id: "1",
-    time: "8:00 AM",
-    patientFullName: "Margaret Henderson",
-    city: "Portland",
-    zip: "97201",
-    visitType: "Pain Management Review",
-    status: "completed",
-    travelMinFromPrior: null,
-    estimatedMinAtLocation: 45,
-  },
-  {
-    id: "2",
-    time: "9:30 AM",
-    patientFullName: "Robert Kimball",
-    city: "Portland",
-    zip: "97205",
-    visitType: "Medication Adjustment",
-    status: "completed",
-    travelMinFromPrior: 12,
-    estimatedMinAtLocation: 40,
-  },
-  {
-    id: "3",
-    time: "11:00 AM",
-    patientFullName: "Eleanor Wright",
-    city: "Beaverton",
-    zip: "97006",
-    visitType: "Comfort Care Assessment",
-    status: "current",
-    priority: "attention",
-    notes: "Family requested extra time today",
-    travelMinFromPrior: 22,
-    estimatedMinAtLocation: 60,
-  },
-  {
-    id: "4",
-    time: "1:30 PM",
-    patientFullName: "James Mitchell",
-    city: "Tigard",
-    zip: "97223",
-    visitType: "Symptom Check",
-    status: "upcoming",
-    travelMinFromPrior: 15,
-    estimatedMinAtLocation: 30,
-  },
-  {
-    id: "5",
-    time: "3:00 PM",
-    patientFullName: "Dorothy Lewis",
-    city: "Lake Oswego",
-    zip: "97034",
-    visitType: "Equipment Check",
-    status: "upcoming",
-    priority: "urgent",
-    notes: "Oxygen delivery scheduled",
-    travelMinFromPrior: 18,
-    estimatedMinAtLocation: 60,
-  },
-];
+import { todayVisits } from "@/data/visits";
 
 export function TodaySchedule() {
   return (
@@ -103,7 +28,6 @@ export function TodaySchedule() {
               visit.status === "completed" && "opacity-50"
             )}
           >
-            {/* Travel time from prior stop */}
             {visit.travelMinFromPrior !== null && (
               <div className="flex items-center gap-1.5 mb-1.5 text-[11px] text-muted-foreground">
                 <Car className="h-3 w-3" />
@@ -112,13 +36,11 @@ export function TodaySchedule() {
             )}
 
             <div className="flex items-start gap-3">
-              {/* Time */}
               <div className="w-16 flex-shrink-0 text-sm font-medium flex items-center gap-1">
                 <Clock className="h-3 w-3 text-muted-foreground" />
                 {visit.time}
               </div>
 
-              {/* Main content */}
               <div className="flex-1 min-w-0">
                 <div className="flex items-center justify-between gap-2">
                   <div className="flex items-center gap-2">
