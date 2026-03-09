@@ -190,7 +190,7 @@ export function AppLayout({ children }: AppLayoutProps) {
 
           {/* Navigation */}
           <nav className="flex-1 px-4 py-4 space-y-1 overflow-y-auto">
-            {navigation.map((item) => {
+            {(isAdmin ? adminNavigation : navigation).map((item) => {
               const isActive = location.pathname === item.href;
               return (
                 <Link
