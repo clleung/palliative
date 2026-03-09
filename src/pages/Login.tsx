@@ -283,8 +283,8 @@ export default function Login() {
                 {biometricScanning ? (
                   <p className="text-sm text-primary font-medium animate-pulse">Scanning...</p>
                 ) : (
-                  <Button onClick={handleBiometricScan} className="gap-2">
-                    <Fingerprint className="h-4 w-4" />
+                  <Button onClick={handleBiometricScan} className="gap-2" aria-label="Start fingerprint or face ID scan">
+                    <Fingerprint className="h-4 w-4" aria-hidden="true" />
                     Start Biometric Scan
                   </Button>
                 )}
