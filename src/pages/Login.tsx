@@ -196,7 +196,7 @@ export default function Login() {
             <>
               <div className="text-center space-y-1">
                 <div className="flex items-center justify-center gap-2">
-                  <Smartphone className="h-5 w-5 text-primary" />
+                  <Smartphone className="h-5 w-5 text-primary" aria-hidden="true" />
                   <h2 className="font-serif text-lg font-semibold">Multi-Factor Auth</h2>
                 </div>
                 <p className="text-sm text-muted-foreground">
