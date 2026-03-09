@@ -28,6 +28,7 @@ const navigation = [
   { name: "Schedule", href: "/schedule", icon: Calendar },
   { name: "Staff Hours", href: "/hours", icon: Clock },
   { name: "Deliveries", href: "/deliveries", icon: Truck },
+  { name: "Settings", href: "/settings", icon: Settings },
 ];
 
 interface AppLayoutProps {
