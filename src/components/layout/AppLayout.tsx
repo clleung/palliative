@@ -227,9 +227,9 @@ export function AppLayout({ children }: AppLayoutProps) {
               <LogOut className="h-4 w-4" aria-hidden="true" />
               Sign Out
             </Button>
-            <div className="privacy-indicator px-2">
-              <Shield className="h-3.5 w-3.5" />
-              <span>HIPAA & GDPR Compliant</span>
+            <div className="privacy-indicator px-2" role="status">
+              <Shield className="h-3.5 w-3.5" aria-hidden="true" />
+              <span>HIPAA &amp; GDPR Compliant</span>
             </div>
           </div>
         </div>
