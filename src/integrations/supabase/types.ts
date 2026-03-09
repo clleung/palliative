@@ -14,6 +14,107 @@ export type Database = {
   }
   public: {
     Tables: {
+      audit_logs: {
+        Row: {
+          action: Database["public"]["Enums"]["audit_action"]
+          id: string
+          ip_address: string | null
+          record_id: string | null
+          table_name: string
+          timestamp: string | null
+          user_agent: string | null
+          user_id: string | null
+        }
+        Insert: {
+          action: Database["public"]["Enums"]["audit_action"]
+          id?: string
+          ip_address?: string | null
+          record_id?: string | null
+          table_name: string
+          timestamp?: string | null
+          user_agent?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          action?: Database["public"]["Enums"]["audit_action"]
+          id?: string
+          ip_address?: string | null
+          record_id?: string | null
+          table_name?: string
+          timestamp?: string | null
+          user_agent?: string | null
+          user_id?: string | null
+        }
+        Relationships: []
+      }
+      patient_consents: {
+        Row: {
+          consent_type: string
+          granted: boolean | null
+          granted_at: string | null
+          id: string
+          patient_id: string | null
+          recorded_by: string | null
+          revoked_at: string | null
+        }
+        Insert: {
+          consent_type: string
+          granted?: boolean | null
+          granted_at?: string | null
+          id?: string
+          patient_id?: string | null
+          recorded_by?: string | null
+          revoked_at?: string | null
+        }
+        Update: {
+          consent_type?: string
+          granted?: boolean | null
+          granted_at?: string | null
+          id?: string
+          patient_id?: string | null
+          recorded_by?: string | null
+          revoked_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "patient_consents_patient_id_fkey"
+            columns: ["patient_id"]
+            isOneToOne: false
+            referencedRelation: "patients"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      patients: {
+        Row: {
+          created_at: string | null
+          dob: string
+          first_name: string
+          id: string
+          last_name: string
+          status: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          dob: string
+          first_name: string
+          id?: string
+          last_name: string
+          status?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          dob?: string
+          first_name?: string
+          id?: string
+          last_name?: string
+          status?: string | null
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
       user_roles: {
         Row: {
           id: string
@@ -98,6 +199,7 @@ export type Database = {
     }
     Enums: {
       app_role: "admin" | "nurse" | "cna" | "coordinator" | "supervisor"
+      audit_action: "SELECT" | "INSERT" | "UPDATE" | "DELETE"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -226,6 +328,7 @@ export const Constants = {
   public: {
     Enums: {
       app_role: ["admin", "nurse", "cna", "coordinator", "supervisor"],
+      audit_action: ["SELECT", "INSERT", "UPDATE", "DELETE"],
     },
   },
 } as const
