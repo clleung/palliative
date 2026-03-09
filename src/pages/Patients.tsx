@@ -29,6 +29,8 @@ interface Patient {
   familyContacts?: { name: string; relation: string; phone: string }[];
   medications?: { name: string; dose: string; schedule: string }[];
   recentNotes?: { date: string; note: string; author: string }[];
+  conditions?: PatientCondition[];
+  vitals?: VitalReading[];
 }
 
 const patients: Patient[] = [
