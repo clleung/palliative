@@ -14,8 +14,10 @@ import {
   Bell,
   Zap,
   ChevronRight,
-  Filter
+  Filter,
+  Map
 } from "lucide-react";
+import { RobotLocationMap } from "@/components/robots/RobotLocationMap";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -38,6 +40,8 @@ interface Robot {
   currentLocation: string;
   assignedPatient?: string;
   lastSeenAt: string;
+  lat: number;
+  lng: number;
 }
 
 interface RobotTask {
@@ -54,12 +58,12 @@ interface RobotTask {
 
 // Mock data
 const robots: Robot[] = [
-  { id: "1", robotId: "HB-001", name: "Atlas", model: "HomeBot X1", status: "on_task", batteryLevel: 78, currentLocation: "123 Oak St, Portland", assignedPatient: "Margaret Henderson", lastSeenAt: "2 min ago" },
-  { id: "2", robotId: "HB-002", name: "Nova", model: "HomeBot X1", status: "in_transit", batteryLevel: 45, currentLocation: "En route to 456 Elm Ave", assignedPatient: "Robert Kimball", lastSeenAt: "1 min ago" },
-  { id: "3", robotId: "HB-003", name: "Echo", model: "HomeBot X2", status: "charging", batteryLevel: 23, currentLocation: "Base Station A", lastSeenAt: "5 min ago" },
-  { id: "4", robotId: "HB-004", name: "Pixel", model: "HomeBot X1", status: "idle", batteryLevel: 100, currentLocation: "Base Station B", lastSeenAt: "Just now" },
-  { id: "5", robotId: "HB-005", name: "Spark", model: "HomeBot X2", status: "maintenance", batteryLevel: 65, currentLocation: "Service Center", lastSeenAt: "1 hour ago" },
-  { id: "6", robotId: "HB-006", name: "Bolt", model: "HomeBot X1", status: "offline", batteryLevel: 0, currentLocation: "Unknown", lastSeenAt: "3 hours ago" },
+  { id: "1", robotId: "HB-001", name: "Atlas", model: "HomeBot X1", status: "on_task", batteryLevel: 78, currentLocation: "123 Oak St, Portland", assignedPatient: "Margaret Henderson", lastSeenAt: "2 min ago", lat: 45.5231, lng: -122.6765 },
+  { id: "2", robotId: "HB-002", name: "Nova", model: "HomeBot X1", status: "in_transit", batteryLevel: 45, currentLocation: "En route to 456 Elm Ave", assignedPatient: "Robert Kimball", lastSeenAt: "1 min ago", lat: 45.5152, lng: -122.6584 },
+  { id: "3", robotId: "HB-003", name: "Echo", model: "HomeBot X2", status: "charging", batteryLevel: 23, currentLocation: "Base Station A", lastSeenAt: "5 min ago", lat: 45.5089, lng: -122.6810 },
+  { id: "4", robotId: "HB-004", name: "Pixel", model: "HomeBot X1", status: "idle", batteryLevel: 100, currentLocation: "Base Station B", lastSeenAt: "Just now", lat: 45.5200, lng: -122.6950 },
+  { id: "5", robotId: "HB-005", name: "Spark", model: "HomeBot X2", status: "maintenance", batteryLevel: 65, currentLocation: "Service Center", lastSeenAt: "1 hour ago", lat: 45.5310, lng: -122.6700 },
+  { id: "6", robotId: "HB-006", name: "Bolt", model: "HomeBot X1", status: "offline", batteryLevel: 0, currentLocation: "Unknown", lastSeenAt: "3 hours ago", lat: 45.5050, lng: -122.6900 },
 ];
 
 const tasks: RobotTask[] = [
@@ -189,6 +193,7 @@ export default function RobotFleet() {
       <Tabs defaultValue="robots" className="space-y-4">
         <TabsList>
           <TabsTrigger value="robots">Robots ({robots.length})</TabsTrigger>
+          <TabsTrigger value="map"><Map className="h-3.5 w-3.5 mr-1.5" aria-hidden="true" />Map</TabsTrigger>
           <TabsTrigger value="tasks">Tasks ({tasks.length})</TabsTrigger>
         </TabsList>
 
@@ -255,6 +260,32 @@ export default function RobotFleet() {
               );
             })}
           </div>
+        </TabsContent>
+
+        <TabsContent value="map">
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-base flex items-center gap-2">
+                <Map className="h-4 w-4" aria-hidden="true" />
+                Live Robot Locations
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="p-0">
+              <RobotLocationMap
+                robots={robots.map(r => ({
+                  id: r.id,
+                  name: r.name,
+                  robotId: r.robotId,
+                  status: r.status,
+                  batteryLevel: r.batteryLevel,
+                  lat: r.lat,
+                  lng: r.lng,
+                  assignedPatient: r.assignedPatient,
+                }))}
+                className="rounded-b-xl min-h-[450px]"
+              />
+            </CardContent>
+          </Card>
         </TabsContent>
 
         <TabsContent value="tasks" className="space-y-3">

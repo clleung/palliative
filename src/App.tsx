@@ -15,6 +15,7 @@ import Hours from "./pages/Hours";
 import Deliveries from "./pages/Deliveries";
 import Settings from "./pages/Settings";
 import RobotFleet from "./pages/RobotFleet";
+import AdminSpecialists from "./pages/AdminSpecialists";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -41,6 +42,7 @@ const App = () => (
                       <Route path="/hours" element={<Hours />} />
                       <Route path="/deliveries" element={<Deliveries />} />
                       <Route path="/robot-fleet" element={<RobotFleet />} />
+                      <Route path="/specialists" element={<AdminSpecialists />} />
                       <Route path="/settings" element={<Settings />} />
                       <Route path="*" element={<NotFound />} />
                     </Routes>
