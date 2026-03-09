@@ -57,9 +57,13 @@ export function TodaySchedule({ onPatientClick }: TodayScheduleProps) {
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center justify-between gap-2">
                     <div className="flex items-center gap-2 flex-wrap">
-                      <h3 className="font-semibold text-sm text-foreground">
+                      <button
+                        className="font-semibold text-sm text-foreground hover:text-primary hover:underline transition-colors text-left"
+                        onClick={() => onPatientClick?.(visit.patientFullName)}
+                        aria-label={`View details for ${abbreviateName(visit.patientFullName)}`}
+                      >
                         {abbreviateName(visit.patientFullName)}
-                      </h3>
+                      </button>
                       {conditions.length > 0 && (
                         <PatientConditionIcons conditions={conditions} size="sm" />
                       )}
