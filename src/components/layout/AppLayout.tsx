@@ -236,12 +236,15 @@ export function AppLayout({ children }: AppLayoutProps) {
       </aside>
 
       {/* Main content */}
-      <main className={cn(
-        "min-h-screen transition-all",
-        "lg:pl-72",
-        "pt-14 lg:pt-0",
-        !isAdmin && "pb-20 lg:pb-0"
-      )}>
+      <main
+        id="main-content"
+        className={cn(
+          "min-h-screen transition-all",
+          "lg:pl-72",
+          "pt-14 lg:pt-0",
+          !isAdmin && "pb-20 lg:pb-0"
+        )}
+      >
         {/* Desktop top bar */}
         <div className="hidden lg:flex items-center justify-between px-8 py-4 border-b border-border bg-card">
           <div />
