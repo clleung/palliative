@@ -258,7 +258,7 @@ export function AppLayout({ children }: AppLayoutProps) {
               className="gap-2"
               onClick={() => setWellnessOpen(true)}
             >
-              <Heart className="h-4 w-4 text-primary" />
+              <Heart className="h-4 w-4 text-primary" aria-hidden="true" />
               Check-in
             </Button>
           </div>
