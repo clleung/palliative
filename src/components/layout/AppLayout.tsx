@@ -49,9 +49,11 @@ export function AppLayout({ children }: AppLayoutProps) {
 
   return (
     <div className="min-h-screen bg-background">
+      {/* Skip to main content — WCAG 2.4.1 */}
+      <a href="#main-content" className="skip-link">Skip to main content</a>
       {/* Mobile bottom navigation — field worker mode */}
       {!isAdmin && (
-        <nav className="lg:hidden fixed bottom-0 left-0 right-0 z-50 bg-card border-t border-border px-2 pb-safe">
+        <nav className="lg:hidden fixed bottom-0 left-0 right-0 z-50 bg-card border-t border-border px-2 pb-safe" aria-label="Mobile navigation">
           <div className="flex items-center justify-around">
             {navigation.slice(0, 5).map((item) => {
               const isActive = location.pathname === item.href;
@@ -77,13 +79,13 @@ export function AppLayout({ children }: AppLayoutProps) {
       <header className="lg:hidden fixed top-0 left-0 right-0 z-50 bg-card/95 backdrop-blur-md border-b border-border px-4 py-3">
         <div className="flex items-center justify-between">
           {isAdmin ? (
-            <Button variant="ghost" size="icon" onClick={() => setSidebarOpen(true)} className="touch-target">
-              <Menu className="h-5 w-5" />
+            <Button variant="ghost" size="icon" onClick={() => setSidebarOpen(true)} className="touch-target" aria-label="Open sidebar menu">
+              <Menu className="h-5 w-5" aria-hidden="true" />
             </Button>
           ) : (
             <div className="flex items-center gap-2">
               <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center">
-                <Heart className="h-4 w-4 text-primary-foreground" />
+                <Heart className="h-4 w-4 text-primary-foreground" aria-hidden="true" />
               </div>
               <span className="font-serif font-semibold text-foreground">CareCompass</span>
             </div>
@@ -94,11 +96,12 @@ export function AppLayout({ children }: AppLayoutProps) {
               size="icon"
               className="touch-target"
               onClick={() => setViewMode(isAdmin ? "field" : "admin")}
+              aria-label={isAdmin ? "Switch to field view" : "Switch to admin view"}
             >
-              {isAdmin ? <Smartphone className="h-4 w-4" /> : <Monitor className="h-4 w-4" />}
+              {isAdmin ? <Smartphone className="h-4 w-4" aria-hidden="true" /> : <Monitor className="h-4 w-4" aria-hidden="true" />}
             </Button>
-            <Button variant="ghost" size="icon" className="touch-target" onClick={() => setWellnessOpen(true)}>
-              <Heart className="h-5 w-5 text-primary" />
+            <Button variant="ghost" size="icon" className="touch-target" onClick={() => setWellnessOpen(true)} aria-label="Open wellness check-in">
+              <Heart className="h-5 w-5 text-primary" aria-hidden="true" />
             </Button>
           </div>
         </div>
@@ -119,13 +122,15 @@ export function AppLayout({ children }: AppLayoutProps) {
           "lg:translate-x-0",
           sidebarOpen ? "translate-x-0" : "-translate-x-full"
         )}
+        role="navigation"
+        aria-label="Main navigation"
       >
         <div className="flex flex-col h-full">
           {/* Logo */}
           <div className="flex items-center justify-between px-6 py-5 border-b border-sidebar-border">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-xl bg-primary flex items-center justify-center shadow-glow">
-                <Heart className="h-5 w-5 text-primary-foreground" />
+                <Heart className="h-5 w-5 text-primary-foreground" aria-hidden="true" />
               </div>
               <div>
                 <h1 className="font-serif text-lg font-semibold text-sidebar-foreground">
@@ -139,8 +144,9 @@ export function AppLayout({ children }: AppLayoutProps) {
               size="icon"
               className="lg:hidden"
               onClick={() => setSidebarOpen(false)}
+              aria-label="Close sidebar menu"
             >
-              <X className="h-5 w-5" />
+              <X className="h-5 w-5" aria-hidden="true" />
             </Button>
           </div>
 
@@ -186,7 +192,7 @@ export function AppLayout({ children }: AppLayoutProps) {
                       : "text-sidebar-foreground hover:bg-sidebar-accent/50"
                   )}
                 >
-                  <item.icon className="h-5 w-5" />
+                  <item.icon className="h-5 w-5" aria-hidden="true" />
                   {item.name}
                 </Link>
               );
@@ -200,7 +206,7 @@ export function AppLayout({ children }: AppLayoutProps) {
               className="w-full justify-start gap-3 bg-accent/50 border-accent hover:bg-accent"
               onClick={() => setWellnessOpen(true)}
             >
-              <Heart className="h-5 w-5 text-accent-foreground" />
+              <Heart className="h-5 w-5 text-accent-foreground" aria-hidden="true" />
               <span className="text-accent-foreground">Wellness Check-in</span>
             </Button>
           </div>
@@ -216,31 +222,35 @@ export function AppLayout({ children }: AppLayoutProps) {
               variant="ghost"
               className="w-full justify-start gap-3 text-muted-foreground hover:text-destructive"
               onClick={() => signOut()}
+              aria-label="Sign out of CareCompass"
             >
-              <LogOut className="h-4 w-4" />
+              <LogOut className="h-4 w-4" aria-hidden="true" />
               Sign Out
             </Button>
-            <div className="privacy-indicator px-2">
-              <Shield className="h-3.5 w-3.5" />
-              <span>HIPAA & GDPR Compliant</span>
+            <div className="privacy-indicator px-2" role="status">
+              <Shield className="h-3.5 w-3.5" aria-hidden="true" />
+              <span>HIPAA &amp; GDPR Compliant</span>
             </div>
           </div>
         </div>
       </aside>
 
       {/* Main content */}
-      <main className={cn(
-        "min-h-screen transition-all",
-        "lg:pl-72",
-        "pt-14 lg:pt-0",
-        !isAdmin && "pb-20 lg:pb-0"
-      )}>
+      <main
+        id="main-content"
+        className={cn(
+          "min-h-screen transition-all",
+          "lg:pl-72",
+          "pt-14 lg:pt-0",
+          !isAdmin && "pb-20 lg:pb-0"
+        )}
+      >
         {/* Desktop top bar */}
         <div className="hidden lg:flex items-center justify-between px-8 py-4 border-b border-border bg-card">
           <div />
           <div className="flex items-center gap-3">
-            <Button variant="ghost" size="icon">
-              <Bell className="h-5 w-5" />
+            <Button variant="ghost" size="icon" aria-label="Notifications">
+              <Bell className="h-5 w-5" aria-hidden="true" />
             </Button>
             <Button
               variant="outline"
@@ -248,7 +258,7 @@ export function AppLayout({ children }: AppLayoutProps) {
               className="gap-2"
               onClick={() => setWellnessOpen(true)}
             >
-              <Heart className="h-4 w-4 text-primary" />
+              <Heart className="h-4 w-4 text-primary" aria-hidden="true" />
               Check-in
             </Button>
           </div>

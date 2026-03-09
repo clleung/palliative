@@ -28,9 +28,9 @@
     --secondary: 270 20% 94%;
     --secondary-foreground: 270 30% 25%;
 
-    /* Muted warm tones */
+    /* Muted warm tones — foreground meets 4.5:1 on light bg */
     --muted: 30 15% 94%;
-    --muted-foreground: 260 10% 45%;
+    --muted-foreground: 260 10% 38%;
 
     /* Soft peach accent */
     --accent: 20 55% 93%;
@@ -47,17 +47,17 @@
 
     --radius: 0.75rem;
 
-    /* Status colors — clearly medical, NOT primary palette */
-    --status-urgent: 0 70% 55%;
-    --status-attention: 35 85% 55%;
-    --status-stable: 150 40% 45%;
-    --status-info: 200 60% 50%;
+    /* Status colors — WCAG AA compliant on white backgrounds */
+    --status-urgent: 0 70% 42%;
+    --status-attention: 30 80% 38%;
+    --status-stable: 150 45% 35%;
+    --status-info: 200 65% 40%;
 
-    /* Priority colors */
-    --priority-critical: 0 70% 55%;
-    --priority-high: 25 90% 55%;
-    --priority-medium: 45 85% 50%;
-    --priority-low: 200 50% 55%;
+    /* Priority colors — WCAG AA 4.5:1 on white */
+    --priority-critical: 0 70% 42%;
+    --priority-high: 25 85% 38%;
+    --priority-medium: 40 80% 35%;
+    --priority-low: 200 55% 40%;
 
     /* Gradients */
     --gradient-calm: linear-gradient(135deg, hsl(270 30% 96%), hsl(30 30% 98%));
@@ -98,7 +98,7 @@
     --secondary-foreground: 30 15% 90%;
 
     --muted: 260 15% 18%;
-    --muted-foreground: 30 10% 60%;
+    --muted-foreground: 30 10% 65%;
 
     --accent: 20 35% 18%;
     --accent-foreground: 20 45% 80%;
@@ -147,24 +147,36 @@
   }
 
   .status-urgent {
-    @apply bg-red-100 text-red-700;
+    @apply bg-red-100 text-red-800;
   }
 
   .status-attention {
-    @apply bg-amber-100 text-amber-700;
+    @apply bg-amber-100 text-amber-800;
   }
 
   .status-stable {
-    @apply bg-emerald-100 text-emerald-700;
+    @apply bg-emerald-100 text-emerald-800;
   }
 
   .privacy-indicator {
     @apply flex items-center gap-1.5 text-xs text-muted-foreground;
   }
 
-  /* Mobile-first touch targets */
+  /* Mobile-first touch targets — WCAG 2.5.8 minimum 44px */
   .touch-target {
     @apply min-h-[44px] min-w-[44px];
+  }
+
+  /* Screen-reader only utility */
+  .sr-only {
+    @apply absolute w-px h-px overflow-hidden whitespace-nowrap;
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+  }
+
+  /* Skip to main content link */
+  .skip-link {
+    @apply sr-only focus:not-sr-only focus:absolute focus:z-[100] focus:top-2 focus:left-2 focus:px-4 focus:py-2 focus:bg-primary focus:text-primary-foreground focus:rounded-md focus:font-medium focus:text-sm;
   }
 
   /* Priority indicator dot */

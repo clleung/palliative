@@ -76,8 +76,8 @@ export default function Login() {
       <div className="w-full max-w-md space-y-6 animate-fade-in">
         {/* Logo */}
         <div className="text-center space-y-2">
-          <div className="w-16 h-16 rounded-2xl bg-primary flex items-center justify-center mx-auto shadow-glow">
-            <Heart className="h-8 w-8 text-primary-foreground" />
+          <div className="w-16 h-16 rounded-2xl bg-primary flex items-center justify-center mx-auto shadow-glow" role="img" aria-label="CareCompass logo">
+            <Heart className="h-8 w-8 text-primary-foreground" aria-hidden="true" />
           </div>
           <h1 className="font-serif text-2xl font-bold text-foreground">CareCompass</h1>
           <p className="text-sm text-muted-foreground">Palliative Care Management</p>
@@ -110,7 +110,7 @@ export default function Login() {
             <>
               <div className="text-center space-y-1">
                 <div className="flex items-center justify-center gap-2">
-                  <KeyRound className="h-5 w-5 text-primary" />
+                  <KeyRound className="h-5 w-5 text-primary" aria-hidden="true" />
                   <h2 className="font-serif text-lg font-semibold">
                     {mode === "login" ? "Worker Sign In" : "Create Account"}
                   </h2>
@@ -164,14 +164,15 @@ export default function Login() {
                       type="button"
                       onClick={() => setShowPassword(!showPassword)}
                       className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                      aria-label={showPassword ? "Hide password" : "Show password"}
                     >
-                      {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                      {showPassword ? <EyeOff className="h-4 w-4" aria-hidden="true" /> : <Eye className="h-4 w-4" aria-hidden="true" />}
                     </button>
                   </div>
                 </div>
 
                 {error && (
-                  <p className="text-sm text-destructive bg-destructive/10 p-2.5 rounded-lg">{error}</p>
+                  <p className="text-sm text-destructive bg-destructive/10 p-2.5 rounded-lg" role="alert">{error}</p>
                 )}
 
                 <Button type="submit" className="w-full" disabled={loading}>
@@ -195,7 +196,7 @@ export default function Login() {
             <>
               <div className="text-center space-y-1">
                 <div className="flex items-center justify-center gap-2">
-                  <Smartphone className="h-5 w-5 text-primary" />
+                  <Smartphone className="h-5 w-5 text-primary" aria-hidden="true" />
                   <h2 className="font-serif text-lg font-semibold">Multi-Factor Auth</h2>
                 </div>
                 <p className="text-sm text-muted-foreground">
@@ -231,7 +232,7 @@ export default function Login() {
                 </div>
 
                 {error && (
-                  <p className="text-sm text-destructive bg-destructive/10 p-2.5 rounded-lg">{error}</p>
+                  <p className="text-sm text-destructive bg-destructive/10 p-2.5 rounded-lg" role="alert">{error}</p>
                 )}
 
                 <Button type="submit" className="w-full">
@@ -254,7 +255,7 @@ export default function Login() {
             <>
               <div className="text-center space-y-1">
                 <div className="flex items-center justify-center gap-2">
-                  <Fingerprint className="h-5 w-5 text-primary" />
+                  <Fingerprint className="h-5 w-5 text-primary" aria-hidden="true" />
                   <h2 className="font-serif text-lg font-semibold">Biometric Verification</h2>
                 </div>
                 <p className="text-sm text-muted-foreground">
@@ -282,8 +283,8 @@ export default function Login() {
                 {biometricScanning ? (
                   <p className="text-sm text-primary font-medium animate-pulse">Scanning...</p>
                 ) : (
-                  <Button onClick={handleBiometricScan} className="gap-2">
-                    <Fingerprint className="h-4 w-4" />
+                  <Button onClick={handleBiometricScan} className="gap-2" aria-label="Start fingerprint or face ID scan">
+                    <Fingerprint className="h-4 w-4" aria-hidden="true" />
                     Start Biometric Scan
                   </Button>
                 )}
@@ -302,8 +303,8 @@ export default function Login() {
 
         {/* Security footer */}
         <div className="flex items-center justify-center gap-2 text-xs text-muted-foreground">
-          <Shield className="h-3.5 w-3.5" />
-          <span>HIPAA & GDPR compliant · AES-256 encrypted</span>
+          <Shield className="h-3.5 w-3.5" aria-hidden="true" />
+          <span>HIPAA &amp; GDPR compliant · AES-256 encrypted</span>
         </div>
       </div>
     </div>
