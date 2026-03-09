@@ -193,6 +193,7 @@ export default function RobotFleet() {
       <Tabs defaultValue="robots" className="space-y-4">
         <TabsList>
           <TabsTrigger value="robots">Robots ({robots.length})</TabsTrigger>
+          <TabsTrigger value="map"><Map className="h-3.5 w-3.5 mr-1.5" aria-hidden="true" />Map</TabsTrigger>
           <TabsTrigger value="tasks">Tasks ({tasks.length})</TabsTrigger>
         </TabsList>
 
