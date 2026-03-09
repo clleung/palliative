@@ -192,7 +192,7 @@ export function AppLayout({ children }: AppLayoutProps) {
                       : "text-sidebar-foreground hover:bg-sidebar-accent/50"
                   )}
                 >
-                  <item.icon className="h-5 w-5" />
+                  <item.icon className="h-5 w-5" aria-hidden="true" />
                   {item.name}
                 </Link>
               );
