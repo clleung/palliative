@@ -1,12 +1,19 @@
 import { useState } from "react";
-import { ChevronDown, ChevronUp, Truck, Clock, ListChecks } from "lucide-react";
+import { ChevronDown, ChevronUp, Truck, Clock, ListChecks, Bot, BarChart3 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { DashboardStats } from "@/components/dashboard/DashboardStats";
 import { TodaySchedule } from "@/components/dashboard/TodaySchedule";
 import { QuickActions } from "@/components/dashboard/QuickActions";
 import { DeliveryStatus } from "@/components/dashboard/DeliveryStatus";
 import { PriorityAlerts } from "@/components/dashboard/PriorityAlerts";
+import { RobotFleetWidget } from "@/components/robots/RobotDispatch";
+import { PatientDetailPanel } from "@/components/patients/PatientDetailPanel";
+import { WeeklyTrends } from "@/components/dashboard/WeeklyTrends";
 import { cn } from "@/lib/utils";
+import { findPatientByName, type Patient } from "@/data/patients";
+import { getMockConditions } from "@/components/patients/PatientConditionIcons";
+import { getMockVitals } from "@/components/patients/PatientVitals";
 
 function CollapsibleSection({
   title,
@@ -64,9 +71,22 @@ function CollapsibleSection({
 }
 
 export default function Dashboard() {
+  const [selectedPatient, setSelectedPatient] = useState<Patient | null>(null);
+  
   const currentHour = new Date().getHours();
   const greeting =
     currentHour < 12 ? "Good morning" : currentHour < 17 ? "Good afternoon" : "Good evening";
+
+  const handlePatientClick = (patientFullName: string) => {
+    const patient = findPatientByName(patientFullName);
+    if (patient) {
+      setSelectedPatient({
+        ...patient,
+        conditions: getMockConditions(patient.name),
+        vitals: getMockVitals(patient.name),
+      });
+    }
+  };
 
   return (
     <div className="space-y-4 animate-fade-in" role="main">
@@ -80,22 +100,50 @@ export default function Dashboard() {
         </p>
       </div>
 
-      <QuickActions />
-      <DashboardStats />
-      <PriorityAlerts />
-      <TodaySchedule />
+      <Tabs defaultValue="overview" className="space-y-4">
+        <TabsList>
+          <TabsTrigger value="overview">Overview</TabsTrigger>
+          <TabsTrigger value="trends">
+            <BarChart3 className="h-3.5 w-3.5 mr-1.5" aria-hidden="true" />
+            Additional Details
+          </TabsTrigger>
+        </TabsList>
 
-      <CollapsibleSection title="Deliveries" icon={Truck} badge="2 active">
-        <DeliveryStatus />
-      </CollapsibleSection>
+        <TabsContent value="overview" className="space-y-4">
+          <QuickActions />
+          <DashboardStats />
+          <PriorityAlerts />
+          
+          {/* Robot Fleet Widget */}
+          <RobotFleetWidget />
+          
+          <TodaySchedule onPatientClick={handlePatientClick} />
 
-      <CollapsibleSection title="Hours This Week" icon={Clock} badge="32/40h">
-        <HoursCompact />
-      </CollapsibleSection>
+          <CollapsibleSection title="Deliveries" icon={Truck} badge="2 active">
+            <DeliveryStatus />
+          </CollapsibleSection>
 
-      <CollapsibleSection title="All Tasks" icon={ListChecks} badge="4 pending">
-        <TaskSummary />
-      </CollapsibleSection>
+          <CollapsibleSection title="Hours This Week" icon={Clock} badge="32/40h">
+            <HoursCompact />
+          </CollapsibleSection>
+
+          <CollapsibleSection title="All Tasks" icon={ListChecks} badge="4 pending">
+            <TaskSummary />
+          </CollapsibleSection>
+        </TabsContent>
+
+        <TabsContent value="trends" className="space-y-4">
+          <WeeklyTrends />
+        </TabsContent>
+      </Tabs>
+
+      {/* Patient detail panel overlay */}
+      {selectedPatient && (
+        <PatientDetailPanel
+          patient={selectedPatient}
+          onClose={() => setSelectedPatient(null)}
+        />
+      )}
     </div>
   );
 }
