@@ -28,7 +28,7 @@ const navigation = [
   { name: "Patients", href: "/patients", icon: Users },
   { name: "Route Planning", href: "/routes", icon: MapPin },
   { name: "Schedule", href: "/schedule", icon: Calendar },
-  { name: "Staff Hours", href: "/hours", icon: Clock },
+  { name: "Time Tracking", href: "/hours", icon: Clock },
   { name: "Deliveries", href: "/deliveries", icon: Truck },
   { name: "Settings", href: "/settings", icon: Settings },
 ];
