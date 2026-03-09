@@ -13,7 +13,8 @@ import {
   X,
   Bell,
   Monitor,
-  Smartphone
+  Smartphone,
+  Settings
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
