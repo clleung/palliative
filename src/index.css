@@ -162,9 +162,21 @@
     @apply flex items-center gap-1.5 text-xs text-muted-foreground;
   }
 
-  /* Mobile-first touch targets */
+  /* Mobile-first touch targets — WCAG 2.5.8 minimum 44px */
   .touch-target {
     @apply min-h-[44px] min-w-[44px];
+  }
+
+  /* Screen-reader only utility */
+  .sr-only {
+    @apply absolute w-px h-px overflow-hidden whitespace-nowrap;
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+  }
+
+  /* Skip to main content link */
+  .skip-link {
+    @apply sr-only focus:not-sr-only focus:absolute focus:z-[100] focus:top-2 focus:left-2 focus:px-4 focus:py-2 focus:bg-primary focus:text-primary-foreground focus:rounded-md focus:font-medium focus:text-sm;
   }
 
   /* Priority indicator dot */
