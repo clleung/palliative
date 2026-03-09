@@ -206,7 +206,7 @@ export function AppLayout({ children }: AppLayoutProps) {
               className="w-full justify-start gap-3 bg-accent/50 border-accent hover:bg-accent"
               onClick={() => setWellnessOpen(true)}
             >
-              <Heart className="h-5 w-5 text-accent-foreground" />
+              <Heart className="h-5 w-5 text-accent-foreground" aria-hidden="true" />
               <span className="text-accent-foreground">Wellness Check-in</span>
             </Button>
           </div>
@@ -222,8 +222,9 @@ export function AppLayout({ children }: AppLayoutProps) {
               variant="ghost"
               className="w-full justify-start gap-3 text-muted-foreground hover:text-destructive"
               onClick={() => signOut()}
+              aria-label="Sign out of CareCompass"
             >
-              <LogOut className="h-4 w-4" />
+              <LogOut className="h-4 w-4" aria-hidden="true" />
               Sign Out
             </Button>
             <div className="privacy-indicator px-2">
