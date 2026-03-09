@@ -1,16 +1,19 @@
 import { useState } from "react";
-import { Search, Plus, ChevronRight, Shield, AlertTriangle, Clock } from "lucide-react";
+import { Search, Plus, ChevronRight, Shield, Clock } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import { PatientDetailPanel } from "@/components/patients/PatientDetailPanel";
+import { abbreviateName, getInitials, getAvatarColor } from "@/lib/privacy";
 
 interface Patient {
   id: string;
   name: string;
   age: number;
   address: string;
+  city: string;
+  zip: string;
   condition: string;
   status: "stable" | "attention" | "critical";
   lastVisit: string;
@@ -32,6 +35,8 @@ const patients: Patient[] = [
     name: "Dorothy Lewis",
     age: 69,
     address: "654 Cedar Lane",
+    city: "Lake Oswego",
+    zip: "97034",
     condition: "ALS",
     status: "critical",
     lastVisit: "2 days ago",
@@ -60,6 +65,8 @@ const patients: Patient[] = [
     name: "Robert Kimball",
     age: 82,
     address: "456 Elm Avenue",
+    city: "Portland",
+    zip: "97205",
     condition: "Heart Failure - Stage IV",
     status: "attention",
     lastVisit: "Today, 9:30 AM",
@@ -87,6 +94,8 @@ const patients: Patient[] = [
     name: "Eleanor Wright",
     age: 71,
     address: "789 Pine Road",
+    city: "Beaverton",
+    zip: "97006",
     condition: "Metastatic Cancer",
     status: "attention",
     lastVisit: "In progress",
@@ -113,6 +122,8 @@ const patients: Patient[] = [
     name: "Margaret Henderson",
     age: 78,
     address: "123 Oak Street, Apt 4B",
+    city: "Portland",
+    zip: "97201",
     condition: "Advanced COPD",
     status: "stable",
     lastVisit: "Today, 8:00 AM",
@@ -137,6 +148,8 @@ const patients: Patient[] = [
     name: "James Mitchell",
     age: 85,
     address: "321 Maple Drive",
+    city: "Tigard",
+    zip: "97223",
     condition: "End-stage Renal Disease",
     status: "stable",
     lastVisit: "Yesterday",
@@ -164,34 +177,22 @@ const statusConfig = {
   critical: { label: "Critical", className: "status-urgent" },
 };
 
-function getInitials(name: string) {
-  return name.split(" ").map((n) => n[0]).join("").slice(0, 2);
-}
-
-function getAvatarColor(name: string) {
-  const colors = [
-    "from-purple-400 to-pink-400",
-    "from-blue-400 to-purple-400",
-    "from-rose-400 to-orange-300",
-    "from-teal-400 to-blue-400",
-    "from-amber-400 to-rose-400",
-  ];
-  return colors[name.charCodeAt(0) % colors.length];
-}
-
 export default function Patients() {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedStatus, setSelectedStatus] = useState<string | null>(null);
   const [selectedPatient, setSelectedPatient] = useState<Patient | null>(null);
 
   const filteredPatients = patients.filter((patient) => {
-    const matchesSearch = patient.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      patient.condition.toLowerCase().includes(searchQuery.toLowerCase());
+    const abbr = abbreviateName(patient.name).toLowerCase();
+    const q = searchQuery.toLowerCase();
+    const matchesSearch =
+      patient.name.toLowerCase().includes(q) ||
+      abbr.includes(q) ||
+      patient.condition.toLowerCase().includes(q);
     const matchesStatus = !selectedStatus || patient.status === selectedStatus;
     return matchesSearch && matchesStatus;
   });
 
-  // Sort by priority: critical > high > medium > low
   const priorityOrder = { critical: 0, high: 1, medium: 2, low: 3 };
   const sortedPatients = [...filteredPatients].sort(
     (a, b) => priorityOrder[a.priority] - priorityOrder[b.priority]
@@ -204,7 +205,6 @@ export default function Patients() {
         "flex-1 space-y-4 min-w-0",
         selectedPatient && "hidden lg:block lg:max-w-md xl:max-w-lg"
       )}>
-        {/* Header */}
         <div className="flex items-center justify-between gap-4">
           <div>
             <h1 className="font-serif text-2xl lg:text-3xl font-semibold text-foreground">
@@ -220,15 +220,13 @@ export default function Patients() {
           </Button>
         </div>
 
-        {/* Privacy notice */}
         <div className="flex items-center gap-2 px-3 py-2 bg-muted/50 rounded-lg">
           <Shield className="h-3.5 w-3.5 text-muted-foreground flex-shrink-0" />
           <p className="text-xs text-muted-foreground">
-            Encrypted & access-logged for HIPAA compliance
+            Names abbreviated for privacy · tap to view full profile
           </p>
         </div>
 
-        {/* Search and filters */}
         <div className="space-y-2">
           <div className="relative">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
@@ -259,7 +257,7 @@ export default function Patients() {
           </div>
         </div>
 
-        {/* Patient cards — mobile-optimized */}
+        {/* Patient cards */}
         <div className="space-y-2">
           {sortedPatients.map((patient) => {
             const status = statusConfig[patient.status];
@@ -275,27 +273,28 @@ export default function Patients() {
                 )}
               >
                 <div className="flex items-center gap-3">
-                  {/* Avatar */}
                   <div className={cn(
-                    "w-12 h-12 rounded-xl bg-gradient-to-br flex items-center justify-center text-sm font-bold text-white flex-shrink-0",
+                    "w-11 h-11 rounded-xl bg-gradient-to-br flex items-center justify-center text-sm font-bold text-white flex-shrink-0",
                     getAvatarColor(patient.name)
                   )}>
                     {getInitials(patient.name)}
                   </div>
 
-                  {/* Info */}
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 mb-0.5">
                       <span className={cn("priority-dot", `priority-${patient.priority}`)} />
-                      <h3 className="font-semibold text-foreground text-sm truncate">
-                        {patient.name}
+                      <h3 className="font-semibold text-foreground text-sm">
+                        {abbreviateName(patient.name)}
                       </h3>
+                      <span className="text-xs text-muted-foreground">
+                        {patient.city}, {patient.zip}
+                      </span>
                     </div>
                     <p className="text-xs text-muted-foreground truncate">
                       {patient.condition}
                     </p>
                     {patient.pendingActions && patient.pendingActions.length > 0 && (
-                      <div className="flex items-center gap-1 mt-1.5">
+                      <div className="flex items-center gap-1 mt-1">
                         <Clock className="h-3 w-3 text-priority-high" />
                         <span className="text-[11px] text-priority-high font-medium truncate">
                           {patient.pendingActions[0]}
@@ -304,7 +303,6 @@ export default function Patients() {
                     )}
                   </div>
 
-                  {/* Status + arrow */}
                   <div className="flex items-center gap-2 flex-shrink-0">
                     <Badge className={cn("status-badge text-[10px]", status.className)}>
                       {status.label}
@@ -318,7 +316,7 @@ export default function Patients() {
         </div>
       </div>
 
-      {/* Detail panel */}
+      {/* Detail panel — shows full name */}
       {selectedPatient && (
         <div className="flex-1 lg:sticky lg:top-0 lg:h-[calc(100vh-8rem)]">
           <PatientDetailPanel

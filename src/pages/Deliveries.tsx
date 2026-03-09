@@ -3,10 +3,11 @@ import { Truck, Package, Plus, Phone, Clock, CheckCircle, AlertCircle } from "lu
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
+import { abbreviateName } from "@/lib/privacy";
 
 interface Delivery {
   id: string;
-  patient: string;
+  patientFullName: string;
   items: string[];
   status: "pending" | "confirmed" | "in-transit" | "delivered";
   scheduledDate: string;
@@ -17,7 +18,7 @@ interface Delivery {
 const deliveries: Delivery[] = [
   {
     id: "1",
-    patient: "Dorothy Lewis",
+    patientFullName: "Dorothy Lewis",
     items: ["Oxygen Concentrator (5L)", "Backup Portable Tank"],
     status: "in-transit",
     scheduledDate: "Today, 2:30 PM",
@@ -25,7 +26,7 @@ const deliveries: Delivery[] = [
   },
   {
     id: "2",
-    patient: "James Mitchell",
+    patientFullName: "James Mitchell",
     items: ["Hospital Bed Rails", "Pressure Relief Mattress"],
     status: "confirmed",
     scheduledDate: "Tomorrow, 10:00 AM",
@@ -33,7 +34,7 @@ const deliveries: Delivery[] = [
   },
   {
     id: "3",
-    patient: "Robert Kimball",
+    patientFullName: "Robert Kimball",
     items: ["Medication Refill - Pain Management"],
     status: "pending",
     scheduledDate: "March 11, 2026",
@@ -42,7 +43,7 @@ const deliveries: Delivery[] = [
   },
   {
     id: "4",
-    patient: "Margaret Henderson",
+    patientFullName: "Margaret Henderson",
     items: ["Nebulizer Supplies"],
     status: "delivered",
     scheduledDate: "Today, 9:00 AM",
@@ -51,26 +52,10 @@ const deliveries: Delivery[] = [
 ];
 
 const statusConfig = {
-  pending: {
-    icon: Clock,
-    label: "Pending",
-    className: "bg-amber-100 text-amber-700",
-  },
-  confirmed: {
-    icon: CheckCircle,
-    label: "Confirmed",
-    className: "bg-blue-100 text-blue-700",
-  },
-  "in-transit": {
-    icon: Truck,
-    label: "In Transit",
-    className: "bg-purple-100 text-purple-700",
-  },
-  delivered: {
-    icon: CheckCircle,
-    label: "Delivered",
-    className: "bg-emerald-100 text-emerald-700",
-  },
+  pending: { icon: Clock, label: "Pending", className: "bg-amber-100 text-amber-700" },
+  confirmed: { icon: CheckCircle, label: "Confirmed", className: "bg-blue-100 text-blue-700" },
+  "in-transit": { icon: Truck, label: "In Transit", className: "bg-purple-100 text-purple-700" },
+  delivered: { icon: CheckCircle, label: "Delivered", className: "bg-emerald-100 text-emerald-700" },
 };
 
 export default function Deliveries() {
@@ -97,43 +82,28 @@ export default function Deliveries() {
         </Button>
       </div>
 
-      {/* Filters */}
       <div className="flex flex-wrap gap-2">
-        <Button
-          variant={filter === null ? "default" : "outline"}
-          size="sm"
-          onClick={() => setFilter(null)}
-        >
+        <Button variant={filter === null ? "default" : "outline"} size="sm" onClick={() => setFilter(null)}>
           All ({deliveries.length})
         </Button>
         {Object.entries(statusConfig).map(([key, config]) => (
-          <Button
-            key={key}
-            variant={filter === key ? "default" : "outline"}
-            size="sm"
-            onClick={() => setFilter(key)}
-          >
+          <Button key={key} variant={filter === key ? "default" : "outline"} size="sm" onClick={() => setFilter(key)}>
             {config.label} ({deliveries.filter((d) => d.status === key).length})
           </Button>
         ))}
       </div>
 
-      {/* Delivery list */}
       <div className="space-y-4">
         {filteredDeliveries.map((delivery, index) => {
           const status = statusConfig[delivery.status];
           const StatusIcon = status.icon;
 
           return (
-            <div
-              key={delivery.id}
-              className="card-elevated p-5"
-              style={{ animationDelay: `${index * 50}ms` }}
-            >
+            <div key={delivery.id} className="card-elevated p-5" style={{ animationDelay: `${index * 50}ms` }}>
               <div className="flex items-start justify-between gap-4">
                 <div className="flex-1">
                   <div className="flex items-center gap-3 mb-2">
-                    <h3 className="font-semibold">{delivery.patient}</h3>
+                    <h3 className="font-semibold">{abbreviateName(delivery.patientFullName)}</h3>
                     <Badge className={cn("status-badge", status.className)}>
                       <StatusIcon className="h-3 w-3 mr-1" />
                       {status.label}

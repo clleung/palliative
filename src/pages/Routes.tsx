@@ -1,34 +1,43 @@
-import { MapPin, Navigation, Clock, Car } from "lucide-react";
+import { MapPin, Navigation, Clock, Car, Timer } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { abbreviateName } from "@/lib/privacy";
 
 const routeStops = [
   {
     id: "1",
     time: "11:00 AM",
-    patient: "Eleanor W.",
-    address: "789 Pine Road",
+    patientFullName: "Eleanor Wright",
+    city: "Beaverton",
+    zip: "97006",
     duration: "45 min",
     status: "current",
+    travelMinFromPrior: 22,
   },
   {
     id: "2",
     time: "1:30 PM",
-    patient: "James M.",
-    address: "321 Maple Drive",
+    patientFullName: "James Mitchell",
+    city: "Tigard",
+    zip: "97223",
     duration: "30 min",
     status: "upcoming",
+    travelMinFromPrior: 15,
   },
   {
     id: "3",
     time: "3:00 PM",
-    patient: "Dorothy L.",
-    address: "654 Cedar Lane",
+    patientFullName: "Dorothy Lewis",
+    city: "Lake Oswego",
+    zip: "97034",
     duration: "60 min",
     status: "upcoming",
+    travelMinFromPrior: 18,
   },
 ];
 
 export default function Routes() {
+  const totalDrive = routeStops.reduce((s, r) => s + r.travelMinFromPrior, 0);
+
   return (
     <div className="space-y-6 animate-fade-in">
       <div>
@@ -58,11 +67,11 @@ export default function Routes() {
             <div className="flex items-center justify-between mb-4">
               <div>
                 <h2 className="font-serif text-lg font-semibold">Today's Route</h2>
-                <p className="text-sm text-muted-foreground">3 stops remaining</p>
+                <p className="text-sm text-muted-foreground">{routeStops.length} stops remaining</p>
               </div>
               <div className="flex items-center gap-2 text-sm text-muted-foreground">
                 <Car className="h-4 w-4" />
-                <span>~45 min total drive time</span>
+                <span>~{totalDrive} min total drive</span>
               </div>
             </div>
 
@@ -73,37 +82,48 @@ export default function Routes() {
 
             <div className="space-y-4">
               {routeStops.map((stop, index) => (
-                <div
-                  key={stop.id}
-                  className={`relative pl-8 pb-4 ${
-                    index < routeStops.length - 1 ? "border-l-2 border-border ml-3" : "ml-3"
-                  }`}
-                >
+                <div key={stop.id}>
+                  {/* Travel segment */}
+                  {index > 0 && (
+                    <div className="flex items-center gap-2 ml-3 pl-5 py-1 text-[11px] text-muted-foreground border-l-2 border-border">
+                      <Car className="h-3 w-3" />
+                      {stop.travelMinFromPrior} min drive
+                    </div>
+                  )}
                   <div
-                    className={`absolute left-0 top-0 w-6 h-6 rounded-full flex items-center justify-center -translate-x-1/2 ${
-                      stop.status === "current"
-                        ? "bg-primary text-primary-foreground"
-                        : "bg-muted text-muted-foreground"
+                    className={`relative pl-8 pb-4 ${
+                      index < routeStops.length - 1 ? "border-l-2 border-border ml-3" : "ml-3"
                     }`}
                   >
-                    {index + 1}
-                  </div>
-                  
-                  <div className="bg-muted/50 rounded-lg p-4">
-                    <div className="flex items-center justify-between mb-2">
-                      <h3 className="font-medium">{stop.patient}</h3>
-                      <div className="flex items-center gap-1 text-sm text-muted-foreground">
-                        <Clock className="h-3.5 w-3.5" />
-                        {stop.time}
+                    <div
+                      className={`absolute left-0 top-0 w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold -translate-x-1/2 ${
+                        stop.status === "current"
+                          ? "bg-primary text-primary-foreground"
+                          : "bg-muted text-muted-foreground"
+                      }`}
+                    >
+                      {index + 1}
+                    </div>
+
+                    <div className="bg-muted/50 rounded-lg p-4">
+                      <div className="flex items-center justify-between mb-1">
+                        <h3 className="font-semibold text-sm">{abbreviateName(stop.patientFullName)}</h3>
+                        <div className="flex items-center gap-1 text-xs text-muted-foreground">
+                          <Clock className="h-3 w-3" />
+                          {stop.time}
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-3 text-xs text-muted-foreground">
+                        <span className="flex items-center gap-1">
+                          <MapPin className="h-3 w-3" />
+                          {stop.city}, {stop.zip}
+                        </span>
+                        <span className="flex items-center gap-1">
+                          <Timer className="h-3 w-3" />
+                          ~{stop.duration} visit
+                        </span>
                       </div>
                     </div>
-                    <p className="text-sm text-muted-foreground flex items-center gap-1.5">
-                      <MapPin className="h-3.5 w-3.5" />
-                      {stop.address}
-                    </p>
-                    <p className="text-xs text-muted-foreground mt-2">
-                      Est. visit duration: {stop.duration}
-                    </p>
                   </div>
                 </div>
               ))}

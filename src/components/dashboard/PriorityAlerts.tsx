@@ -1,11 +1,13 @@
-import { AlertTriangle, Clock, ChevronRight, Phone } from "lucide-react";
+import { AlertTriangle, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { abbreviateName } from "@/lib/privacy";
 
 interface PriorityItem {
   id: string;
   type: "patient" | "task";
-  title: string;
+  patientFullName: string;
+  context: string;
   subtitle: string;
   priority: "critical" | "high" | "medium";
   action?: string;
@@ -15,7 +17,8 @@ const priorityItems: PriorityItem[] = [
   {
     id: "1",
     type: "patient",
-    title: "Dorothy Lewis — ALS",
+    patientFullName: "Dorothy Lewis",
+    context: "ALS",
     subtitle: "Awaiting family decision on ventilator support",
     priority: "critical",
     action: "Call family",
@@ -23,14 +26,16 @@ const priorityItems: PriorityItem[] = [
   {
     id: "2",
     type: "task",
-    title: "Robert Kimball — Lab Results",
+    patientFullName: "Robert Kimball",
+    context: "Lab Results",
     subtitle: "Waiting on bloodwork from this morning's draw",
     priority: "high",
   },
   {
     id: "3",
     type: "patient",
-    title: "Eleanor Wright — Pain Management",
+    patientFullName: "Eleanor Wright",
+    context: "Pain Management",
     subtitle: "Pain levels elevated since Wednesday — re-evaluation needed",
     priority: "high",
     action: "Review plan",
@@ -38,7 +43,8 @@ const priorityItems: PriorityItem[] = [
   {
     id: "4",
     type: "task",
-    title: "Oxygen delivery — Dorothy L.",
+    patientFullName: "Dorothy Lewis",
+    context: "Oxygen delivery",
     subtitle: "Scheduled for 2:30 PM today",
     priority: "medium",
   },
@@ -47,27 +53,29 @@ const priorityItems: PriorityItem[] = [
 export function PriorityAlerts() {
   return (
     <div className="card-elevated overflow-hidden">
-      <div className="px-5 py-4 border-b border-border flex items-center justify-between">
+      <div className="px-5 py-3 border-b border-border flex items-center justify-between">
         <div className="flex items-center gap-2">
           <AlertTriangle className="h-4 w-4 text-priority-high" />
-          <h2 className="font-serif text-lg font-semibold">Priority Queue</h2>
+          <h2 className="font-serif text-base font-semibold">Priority Queue</h2>
         </div>
-        <span className="text-xs font-medium text-primary bg-primary/10 px-2.5 py-1 rounded-full">
+        <span className="text-[11px] font-medium text-primary bg-primary/10 px-2 py-0.5 rounded-full">
           {priorityItems.length} items
         </span>
       </div>
 
       <div className="divide-y divide-border">
         {priorityItems.map((item) => (
-          <div key={item.id} className="px-5 py-3.5 hover:bg-muted/30 transition-colors">
+          <div key={item.id} className="px-5 py-3 hover:bg-muted/30 transition-colors">
             <div className="flex items-start gap-3">
-              <span className={cn("priority-dot mt-1.5", `priority-${item.priority}`)} />
+              <span className={cn("priority-dot mt-1", `priority-${item.priority}`)} />
               <div className="flex-1 min-w-0">
-                <p className="text-sm font-medium text-foreground">{item.title}</p>
+                <p className="text-sm font-medium text-foreground">
+                  {abbreviateName(item.patientFullName)} — {item.context}
+                </p>
                 <p className="text-xs text-muted-foreground mt-0.5">{item.subtitle}</p>
               </div>
               {item.action && (
-                <Button variant="ghost" size="sm" className="text-xs text-primary flex-shrink-0 gap-1">
+                <Button variant="ghost" size="sm" className="text-xs text-primary flex-shrink-0 gap-1 h-7">
                   {item.action}
                   <ChevronRight className="h-3 w-3" />
                 </Button>
