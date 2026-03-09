@@ -205,9 +205,22 @@ export function AppLayout({ children }: AppLayoutProps) {
             </Button>
           </div>
 
-          {/* Privacy */}
-          <div className="px-6 py-4 border-t border-sidebar-border">
-            <div className="privacy-indicator">
+          {/* Sign out + Privacy */}
+          <div className="px-4 py-3 border-t border-sidebar-border space-y-2">
+            {workerProfile && (
+              <p className="text-xs text-muted-foreground px-2 truncate">
+                {workerProfile.display_name} · {workerProfile.worker_id}
+              </p>
+            )}
+            <Button
+              variant="ghost"
+              className="w-full justify-start gap-3 text-muted-foreground hover:text-destructive"
+              onClick={() => signOut()}
+            >
+              <LogOut className="h-4 w-4" />
+              Sign Out
+            </Button>
+            <div className="privacy-indicator px-2">
               <Shield className="h-3.5 w-3.5" />
               <span>HIPAA & GDPR Compliant</span>
             </div>
