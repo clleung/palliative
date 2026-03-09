@@ -7,7 +7,11 @@ import { todayVisits } from "@/data/visits";
 import { PatientConditionIcons, getMockConditions } from "@/components/patients/PatientConditionIcons";
 import { PatientVitals, getMockVitals } from "@/components/patients/PatientVitals";
 
-export function TodaySchedule() {
+interface TodayScheduleProps {
+  onPatientClick?: (patientFullName: string) => void;
+}
+
+export function TodaySchedule({ onPatientClick }: TodayScheduleProps) {
   return (
     <div className="card-elevated overflow-hidden" role="region" aria-labelledby="schedule-heading">
       <div className="px-5 py-3 border-b border-border">
