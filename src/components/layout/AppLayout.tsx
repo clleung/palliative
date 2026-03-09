@@ -122,6 +122,8 @@ export function AppLayout({ children }: AppLayoutProps) {
           "lg:translate-x-0",
           sidebarOpen ? "translate-x-0" : "-translate-x-full"
         )}
+        role="navigation"
+        aria-label="Main navigation"
       >
         <div className="flex flex-col h-full">
           {/* Logo */}
