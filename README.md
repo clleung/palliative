@@ -287,3 +287,16 @@ npx vitest run
 - [ ] Smart device integration (real BLE/API connections)
 - [ ] PDF report generation
 - [ ] Shift scheduling with coverage gap alerts
+
+
+### Initial Project Created as Part of SheBuilds 2026 on March 8, 2026
+**To Do**
+- add at-home robot fleet management to admin
+- add tasks for delivering and checking in with records from at-home robots
+- add patient data from smart watches and other health monitoring devices
+- add iconography for patients with disabilities (visual, etc.) and high risk medications (heart medications, narcotics)**
+- reconcile with open-source/tailwind ui and react frameworks
+- accessibility checks
+- smart device/monitoring updates
+- mobile-first design/testing
+- popup for acronym breakdowns XD
