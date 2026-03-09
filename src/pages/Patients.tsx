@@ -266,11 +266,13 @@ export default function Patients() {
           {sortedPatients.map((patient) => {
             const status = statusConfig[patient.status];
             const isSelected = selectedPatient?.id === patient.id;
+            const conditions = getMockConditions(patient.name);
+            const vitals = getMockVitals(patient.name);
 
             return (
               <button
                 key={patient.id}
-                onClick={() => setSelectedPatient(patient)}
+                onClick={() => setSelectedPatient({ ...patient, conditions, vitals })}
                 className={cn(
                   "w-full text-left card-elevated p-4 hover:shadow-soft-lg transition-all touch-target",
                   isSelected && "ring-2 ring-primary"
@@ -290,16 +292,19 @@ export default function Patients() {
                       <h3 className="font-semibold text-foreground text-sm">
                         {abbreviateName(patient.name)}
                       </h3>
-                      <span className="text-xs text-muted-foreground">
-                        {patient.city}, {patient.zip}
-                      </span>
+                      <PatientConditionIcons conditions={conditions} size="sm" />
                     </div>
                     <p className="text-xs text-muted-foreground truncate">
                       {patient.condition}
                     </p>
+                    {vitals.length > 0 && (
+                      <div className="mt-1">
+                        <PatientVitals vitals={vitals} compact />
+                      </div>
+                    )}
                     {patient.pendingActions && patient.pendingActions.length > 0 && (
                       <div className="flex items-center gap-1 mt-1">
-                        <Clock className="h-3 w-3 text-priority-high" />
+                        <Clock className="h-3 w-3 text-priority-high" aria-hidden="true" />
                         <span className="text-[11px] text-priority-high font-medium truncate">
                           {patient.pendingActions[0]}
                         </span>
@@ -311,7 +316,7 @@ export default function Patients() {
                     <Badge className={cn("status-badge text-[10px]", status.className)}>
                       {status.label}
                     </Badge>
-                    <ChevronRight className="h-4 w-4 text-muted-foreground" />
+                    <ChevronRight className="h-4 w-4 text-muted-foreground" aria-hidden="true" />
                   </div>
                 </div>
               </button>
