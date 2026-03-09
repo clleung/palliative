@@ -85,7 +85,7 @@ export function AppLayout({ children }: AppLayoutProps) {
           ) : (
             <div className="flex items-center gap-2">
               <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center">
-                <Heart className="h-4 w-4 text-primary-foreground" />
+                <Heart className="h-4 w-4 text-primary-foreground" aria-hidden="true" />
               </div>
               <span className="font-serif font-semibold text-foreground">CareCompass</span>
             </div>
