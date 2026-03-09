@@ -47,6 +47,101 @@ export type Database = {
         }
         Relationships: []
       }
+      device_readings: {
+        Row: {
+          device_serial: string | null
+          device_type: Database["public"]["Enums"]["device_type"]
+          id: string
+          is_abnormal: boolean | null
+          metadata: Json | null
+          patient_id: string
+          reading_type: string
+          recorded_at: string | null
+          synced_at: string | null
+          unit: string
+          value: number
+        }
+        Insert: {
+          device_serial?: string | null
+          device_type: Database["public"]["Enums"]["device_type"]
+          id?: string
+          is_abnormal?: boolean | null
+          metadata?: Json | null
+          patient_id: string
+          reading_type: string
+          recorded_at?: string | null
+          synced_at?: string | null
+          unit: string
+          value: number
+        }
+        Update: {
+          device_serial?: string | null
+          device_type?: Database["public"]["Enums"]["device_type"]
+          id?: string
+          is_abnormal?: boolean | null
+          metadata?: Json | null
+          patient_id?: string
+          reading_type?: string
+          recorded_at?: string | null
+          synced_at?: string | null
+          unit?: string
+          value?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "device_readings_patient_id_fkey"
+            columns: ["patient_id"]
+            isOneToOne: false
+            referencedRelation: "patients"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      patient_conditions: {
+        Row: {
+          condition_type: string
+          created_at: string | null
+          disability_type: Database["public"]["Enums"]["disability_type"] | null
+          id: string
+          is_high_risk_medication: boolean | null
+          medication_category: string | null
+          notes: string | null
+          patient_id: string
+        }
+        Insert: {
+          condition_type: string
+          created_at?: string | null
+          disability_type?:
+            | Database["public"]["Enums"]["disability_type"]
+            | null
+          id?: string
+          is_high_risk_medication?: boolean | null
+          medication_category?: string | null
+          notes?: string | null
+          patient_id: string
+        }
+        Update: {
+          condition_type?: string
+          created_at?: string | null
+          disability_type?:
+            | Database["public"]["Enums"]["disability_type"]
+            | null
+          id?: string
+          is_high_risk_medication?: boolean | null
+          medication_category?: string | null
+          notes?: string | null
+          patient_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "patient_conditions_patient_id_fkey"
+            columns: ["patient_id"]
+            isOneToOne: false
+            referencedRelation: "patients"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       patient_consents: {
         Row: {
           consent_type: string
@@ -114,6 +209,125 @@ export type Database = {
           updated_at?: string | null
         }
         Relationships: []
+      }
+      robot_tasks: {
+        Row: {
+          completed_at: string | null
+          created_at: string | null
+          created_by: string | null
+          description: string | null
+          id: string
+          notes: string | null
+          patient_id: string
+          priority: number | null
+          robot_id: string | null
+          scheduled_at: string | null
+          started_at: string | null
+          status: Database["public"]["Enums"]["robot_task_status"] | null
+          task_type: Database["public"]["Enums"]["robot_task_type"]
+          updated_at: string | null
+        }
+        Insert: {
+          completed_at?: string | null
+          created_at?: string | null
+          created_by?: string | null
+          description?: string | null
+          id?: string
+          notes?: string | null
+          patient_id: string
+          priority?: number | null
+          robot_id?: string | null
+          scheduled_at?: string | null
+          started_at?: string | null
+          status?: Database["public"]["Enums"]["robot_task_status"] | null
+          task_type: Database["public"]["Enums"]["robot_task_type"]
+          updated_at?: string | null
+        }
+        Update: {
+          completed_at?: string | null
+          created_at?: string | null
+          created_by?: string | null
+          description?: string | null
+          id?: string
+          notes?: string | null
+          patient_id?: string
+          priority?: number | null
+          robot_id?: string | null
+          scheduled_at?: string | null
+          started_at?: string | null
+          status?: Database["public"]["Enums"]["robot_task_status"] | null
+          task_type?: Database["public"]["Enums"]["robot_task_type"]
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "robot_tasks_patient_id_fkey"
+            columns: ["patient_id"]
+            isOneToOne: false
+            referencedRelation: "patients"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "robot_tasks_robot_id_fkey"
+            columns: ["robot_id"]
+            isOneToOne: false
+            referencedRelation: "robots"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      robots: {
+        Row: {
+          assigned_patient_id: string | null
+          battery_level: number | null
+          created_at: string | null
+          current_location: string | null
+          id: string
+          last_maintenance_at: string | null
+          last_seen_at: string | null
+          model: string | null
+          name: string
+          robot_id: string
+          status: Database["public"]["Enums"]["robot_status"] | null
+          updated_at: string | null
+        }
+        Insert: {
+          assigned_patient_id?: string | null
+          battery_level?: number | null
+          created_at?: string | null
+          current_location?: string | null
+          id?: string
+          last_maintenance_at?: string | null
+          last_seen_at?: string | null
+          model?: string | null
+          name: string
+          robot_id: string
+          status?: Database["public"]["Enums"]["robot_status"] | null
+          updated_at?: string | null
+        }
+        Update: {
+          assigned_patient_id?: string | null
+          battery_level?: number | null
+          created_at?: string | null
+          current_location?: string | null
+          id?: string
+          last_maintenance_at?: string | null
+          last_seen_at?: string | null
+          model?: string | null
+          name?: string
+          robot_id?: string
+          status?: Database["public"]["Enums"]["robot_status"] | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "robots_assigned_patient_id_fkey"
+            columns: ["assigned_patient_id"]
+            isOneToOne: false
+            referencedRelation: "patients"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       user_roles: {
         Row: {
@@ -200,6 +414,40 @@ export type Database = {
     Enums: {
       app_role: "admin" | "nurse" | "cna" | "coordinator" | "supervisor"
       audit_action: "SELECT" | "INSERT" | "UPDATE" | "DELETE"
+      device_type:
+        | "smartwatch"
+        | "blood_pressure"
+        | "pulse_oximeter"
+        | "glucose_monitor"
+        | "weight_scale"
+        | "thermometer"
+        | "ecg_monitor"
+      disability_type:
+        | "visual"
+        | "hearing"
+        | "mobility"
+        | "cognitive"
+        | "speech"
+      robot_status:
+        | "idle"
+        | "charging"
+        | "in_transit"
+        | "on_task"
+        | "maintenance"
+        | "offline"
+      robot_task_status:
+        | "pending"
+        | "assigned"
+        | "in_progress"
+        | "completed"
+        | "failed"
+        | "cancelled"
+      robot_task_type:
+        | "delivery"
+        | "check_in"
+        | "vitals_collection"
+        | "medication_reminder"
+        | "emergency_response"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -329,6 +577,39 @@ export const Constants = {
     Enums: {
       app_role: ["admin", "nurse", "cna", "coordinator", "supervisor"],
       audit_action: ["SELECT", "INSERT", "UPDATE", "DELETE"],
+      device_type: [
+        "smartwatch",
+        "blood_pressure",
+        "pulse_oximeter",
+        "glucose_monitor",
+        "weight_scale",
+        "thermometer",
+        "ecg_monitor",
+      ],
+      disability_type: ["visual", "hearing", "mobility", "cognitive", "speech"],
+      robot_status: [
+        "idle",
+        "charging",
+        "in_transit",
+        "on_task",
+        "maintenance",
+        "offline",
+      ],
+      robot_task_status: [
+        "pending",
+        "assigned",
+        "in_progress",
+        "completed",
+        "failed",
+        "cancelled",
+      ],
+      robot_task_type: [
+        "delivery",
+        "check_in",
+        "vitals_collection",
+        "medication_reminder",
+        "emergency_response",
+      ],
     },
   },
 } as const

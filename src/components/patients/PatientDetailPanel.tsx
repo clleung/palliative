@@ -12,11 +12,14 @@ import {
   Calendar,
   Pill,
   Activity,
+  Watch,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { cn } from "@/lib/utils";
+import { PatientConditionIcons, PatientCondition, getMockConditions } from "./PatientConditionIcons";
+import { PatientVitals, VitalReading, getMockVitals } from "./PatientVitals";
 
 interface PatientDetail {
   id: string;
@@ -36,6 +39,8 @@ interface PatientDetail {
   familyContacts?: { name: string; relation: string; phone: string }[];
   medications?: { name: string; dose: string; schedule: string }[];
   recentNotes?: { date: string; note: string; author: string }[];
+  conditions?: PatientCondition[];
+  vitals?: VitalReading[];
 }
 
 interface PatientDetailPanelProps {
@@ -44,8 +49,8 @@ interface PatientDetailPanelProps {
 }
 
 const priorityConfig = {
-  critical: { label: "Critical Priority", dotClass: "priority-critical", bgClass: "bg-red-50 border-red-200" },
-  high: { label: "High Priority", dotClass: "priority-high", bgClass: "bg-orange-50 border-orange-200" },
+  critical: { label: "Critical Priority", dotClass: "priority-critical", bgClass: "bg-destructive/10 border-destructive/20" },
+  high: { label: "High Priority", dotClass: "priority-high", bgClass: "bg-amber-50 border-amber-200" },
   medium: { label: "Medium Priority", dotClass: "priority-medium", bgClass: "bg-yellow-50 border-yellow-200" },
   low: { label: "Low Priority", dotClass: "priority-low", bgClass: "bg-blue-50 border-blue-200" },
 };
@@ -79,6 +84,8 @@ export function PatientDetailPanel({ patient, onClose }: PatientDetailPanelProps
 
   const priority = priorityConfig[patient.priority];
   const status = statusConfig[patient.status];
+  const conditions = patient.conditions || getMockConditions(patient.name);
+  const vitals = patient.vitals || getMockVitals(patient.name);
 
   return (
     <div className="fixed inset-0 z-50 lg:relative lg:inset-auto animate-slide-up lg:animate-fade-in">
@@ -92,16 +99,18 @@ export function PatientDetailPanel({ patient, onClose }: PatientDetailPanelProps
               size="icon"
               className="text-primary-foreground/80 hover:text-primary-foreground hover:bg-primary-foreground/10"
               onClick={onClose}
+              aria-label="Close patient details"
             >
-              <X className="h-5 w-5" />
+              <X className="h-5 w-5" aria-hidden="true" />
             </Button>
             <div className="flex gap-2">
               <Button
                 variant="ghost"
                 size="icon"
                 className="text-primary-foreground/80 hover:text-primary-foreground hover:bg-primary-foreground/10"
+                aria-label={`Call ${patient.name}`}
               >
-                <Phone className="h-5 w-5" />
+                <Phone className="h-5 w-5" aria-hidden="true" />
               </Button>
             </div>
           </div>
@@ -118,7 +127,7 @@ export function PatientDetailPanel({ patient, onClose }: PatientDetailPanelProps
               <p className="text-primary-foreground/80 mt-1">
                 {patient.age} years old
               </p>
-              <div className="flex items-center gap-2 mt-2">
+              <div className="flex items-center gap-2 mt-2 flex-wrap">
                 <Badge className={cn("status-badge", status.className)}>
                   {status.label}
                 </Badge>
@@ -126,6 +135,9 @@ export function PatientDetailPanel({ patient, onClose }: PatientDetailPanelProps
                   <span className={cn("priority-dot mr-1.5 inline-block", priority.dotClass)} />
                   {priority.label}
                 </Badge>
+                {conditions.length > 0 && (
+                  <PatientConditionIcons conditions={conditions} size="md" />
+                )}
               </div>
             </div>
           </div>
@@ -144,13 +156,13 @@ export function PatientDetailPanel({ patient, onClose }: PatientDetailPanelProps
         {patient.pendingActions && patient.pendingActions.length > 0 && (
           <div className="px-6 py-3 bg-accent/20 border-b border-border">
             <div className="flex items-center gap-2 mb-2">
-              <AlertTriangle className="h-4 w-4 text-priority-high" />
+              <AlertTriangle className="h-4 w-4 text-priority-high" aria-hidden="true" />
               <span className="text-sm font-semibold text-foreground">Pending Actions</span>
             </div>
-            <ul className="space-y-1">
+            <ul className="space-y-1" role="list">
               {patient.pendingActions.map((action, i) => (
                 <li key={i} className="text-sm text-muted-foreground flex items-center gap-2">
-                  <ChevronRight className="h-3 w-3" />
+                  <ChevronRight className="h-3 w-3" aria-hidden="true" />
                   {action}
                 </li>
               ))}
@@ -164,6 +176,9 @@ export function PatientDetailPanel({ patient, onClose }: PatientDetailPanelProps
             <TabsList className="w-full justify-start px-6 pt-4 bg-transparent border-b border-border rounded-none h-auto gap-0">
               <TabsTrigger value="overview" className="rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent pb-3">
                 Overview
+              </TabsTrigger>
+              <TabsTrigger value="vitals" className="rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent pb-3">
+                Vitals
               </TabsTrigger>
               <TabsTrigger value="care" className="rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent pb-3">
                 Care Plan
@@ -216,9 +231,27 @@ export function PatientDetailPanel({ patient, onClose }: PatientDetailPanelProps
               </div>
             </TabsContent>
 
+            <TabsContent value="vitals" className="px-6 py-4 space-y-4 mt-0">
+              <h4 className="text-sm font-semibold text-foreground flex items-center gap-2">
+                <Watch className="h-4 w-4 text-primary" aria-hidden="true" />
+                Connected Device Readings
+              </h4>
+              {vitals.length > 0 ? (
+                <PatientVitals vitals={vitals} />
+              ) : (
+                <div className="p-4 rounded-xl bg-muted/50 border border-border text-center">
+                  <Watch className="h-8 w-8 text-muted-foreground mx-auto mb-2" aria-hidden="true" />
+                  <p className="text-sm text-muted-foreground">No connected devices</p>
+                  <Button variant="outline" size="sm" className="mt-3">
+                    Connect Device
+                  </Button>
+                </div>
+              )}
+            </TabsContent>
+
             <TabsContent value="care" className="px-6 py-4 space-y-4 mt-0">
               <h4 className="text-sm font-semibold text-foreground flex items-center gap-2">
-                <Pill className="h-4 w-4 text-primary" />
+                <Pill className="h-4 w-4 text-primary" aria-hidden="true" />
                 Medications
               </h4>
               {patient.medications?.map((med, i) => (
@@ -233,7 +266,7 @@ export function PatientDetailPanel({ patient, onClose }: PatientDetailPanelProps
 
             <TabsContent value="family" className="px-6 py-4 space-y-3 mt-0">
               <h4 className="text-sm font-semibold text-foreground flex items-center gap-2">
-                <Users className="h-4 w-4 text-primary" />
+                <Users className="h-4 w-4 text-primary" aria-hidden="true" />
                 Family Contacts
               </h4>
               {patient.familyContacts?.map((contact, i) => (
@@ -243,7 +276,7 @@ export function PatientDetailPanel({ patient, onClose }: PatientDetailPanelProps
                     <p className="text-xs text-muted-foreground">{contact.relation}</p>
                   </div>
                   <Button variant="ghost" size="sm" className="gap-2 text-primary">
-                    <Phone className="h-3.5 w-3.5" />
+                    <Phone className="h-3.5 w-3.5" aria-hidden="true" />
                     {contact.phone}
                   </Button>
                 </div>
@@ -255,7 +288,7 @@ export function PatientDetailPanel({ patient, onClose }: PatientDetailPanelProps
             <TabsContent value="notes" className="px-6 py-4 space-y-3 mt-0">
               <div className="flex items-center justify-between">
                 <h4 className="text-sm font-semibold text-foreground flex items-center gap-2">
-                  <FileText className="h-4 w-4 text-primary" />
+                  <FileText className="h-4 w-4 text-primary" aria-hidden="true" />
                   Recent Notes
                 </h4>
                 <Button variant="outline" size="sm">Add Note</Button>
@@ -279,11 +312,11 @@ export function PatientDetailPanel({ patient, onClose }: PatientDetailPanelProps
   );
 }
 
-function InfoCard({ icon: Icon, label, value }: { icon: any; label: string; value: string }) {
+function InfoCard({ icon: Icon, label, value }: { icon: React.ElementType; label: string; value: string }) {
   return (
     <div className="p-3 rounded-lg bg-muted/50 border border-border">
       <div className="flex items-center gap-1.5 mb-1">
-        <Icon className="h-3.5 w-3.5 text-muted-foreground" />
+        <Icon className="h-3.5 w-3.5 text-muted-foreground" aria-hidden="true" />
         <span className="text-xs text-muted-foreground">{label}</span>
       </div>
       <p className="text-sm font-medium text-foreground">{value}</p>
