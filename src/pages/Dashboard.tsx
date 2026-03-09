@@ -72,6 +72,9 @@ export default function Dashboard() {
         </p>
       </div>
 
+      {/* Quick actions — top for easy access */}
+      <QuickActions />
+
       {/* Compact stats row */}
       <DashboardStats />
 
@@ -80,9 +83,6 @@ export default function Dashboard() {
 
       {/* Today's schedule — always visible, condensed */}
       <TodaySchedule />
-
-      {/* Quick actions — always accessible */}
-      <QuickActions />
 
       {/* Expandable sections */}
       <CollapsibleSection title="Deliveries" icon={Truck} badge="2 active">
