@@ -13,6 +13,7 @@ import {
   Pill,
   Activity,
   Watch,
+  Bot,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -20,6 +21,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { cn } from "@/lib/utils";
 import { PatientConditionIcons, PatientCondition, getMockConditions } from "./PatientConditionIcons";
 import { PatientVitals, VitalReading, getMockVitals } from "./PatientVitals";
+import { RobotDispatch } from "@/components/robots/RobotDispatch";
 
 interface PatientDetail {
   id: string;
