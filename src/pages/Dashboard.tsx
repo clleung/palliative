@@ -1,6 +1,7 @@
 import { useState } from "react";
-import { ChevronDown, ChevronUp, Truck, Clock, ListChecks, Bot } from "lucide-react";
+import { ChevronDown, ChevronUp, Truck, Clock, ListChecks, Bot, BarChart3 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { DashboardStats } from "@/components/dashboard/DashboardStats";
 import { TodaySchedule } from "@/components/dashboard/TodaySchedule";
 import { QuickActions } from "@/components/dashboard/QuickActions";
@@ -8,6 +9,7 @@ import { DeliveryStatus } from "@/components/dashboard/DeliveryStatus";
 import { PriorityAlerts } from "@/components/dashboard/PriorityAlerts";
 import { RobotFleetWidget } from "@/components/robots/RobotDispatch";
 import { PatientDetailPanel } from "@/components/patients/PatientDetailPanel";
+import { WeeklyTrends } from "@/components/dashboard/WeeklyTrends";
 import { cn } from "@/lib/utils";
 import { findPatientByName, type Patient } from "@/data/patients";
 import { getMockConditions } from "@/components/patients/PatientConditionIcons";
