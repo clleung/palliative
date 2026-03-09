@@ -76,8 +76,8 @@ export default function Login() {
       <div className="w-full max-w-md space-y-6 animate-fade-in">
         {/* Logo */}
         <div className="text-center space-y-2">
-          <div className="w-16 h-16 rounded-2xl bg-primary flex items-center justify-center mx-auto shadow-glow">
-            <Heart className="h-8 w-8 text-primary-foreground" />
+          <div className="w-16 h-16 rounded-2xl bg-primary flex items-center justify-center mx-auto shadow-glow" role="img" aria-label="CareCompass logo">
+            <Heart className="h-8 w-8 text-primary-foreground" aria-hidden="true" />
           </div>
           <h1 className="font-serif text-2xl font-bold text-foreground">CareCompass</h1>
           <p className="text-sm text-muted-foreground">Palliative Care Management</p>
