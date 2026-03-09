@@ -47,11 +47,11 @@
 
     --radius: 0.75rem;
 
-    /* Status colors — clearly medical, NOT primary palette */
-    --status-urgent: 0 70% 55%;
-    --status-attention: 35 85% 55%;
-    --status-stable: 150 40% 45%;
-    --status-info: 200 60% 50%;
+    /* Status colors — WCAG AA compliant on white backgrounds */
+    --status-urgent: 0 70% 42%;
+    --status-attention: 30 80% 38%;
+    --status-stable: 150 45% 35%;
+    --status-info: 200 65% 40%;
 
     /* Priority colors */
     --priority-critical: 0 70% 55%;
