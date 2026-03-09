@@ -255,7 +255,7 @@ export default function Login() {
             <>
               <div className="text-center space-y-1">
                 <div className="flex items-center justify-center gap-2">
-                  <Fingerprint className="h-5 w-5 text-primary" />
+                  <Fingerprint className="h-5 w-5 text-primary" aria-hidden="true" />
                   <h2 className="font-serif text-lg font-semibold">Biometric Verification</h2>
                 </div>
                 <p className="text-sm text-muted-foreground">
