@@ -110,7 +110,7 @@ export default function Login() {
             <>
               <div className="text-center space-y-1">
                 <div className="flex items-center justify-center gap-2">
-                  <KeyRound className="h-5 w-5 text-primary" />
+                  <KeyRound className="h-5 w-5 text-primary" aria-hidden="true" />
                   <h2 className="font-serif text-lg font-semibold">
                     {mode === "login" ? "Worker Sign In" : "Create Account"}
                   </h2>
