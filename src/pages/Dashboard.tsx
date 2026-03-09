@@ -1,50 +1,156 @@
+import { useState } from "react";
+import { ChevronDown, ChevronUp, Truck, Clock, ListChecks } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import { DashboardStats } from "@/components/dashboard/DashboardStats";
 import { TodaySchedule } from "@/components/dashboard/TodaySchedule";
 import { QuickActions } from "@/components/dashboard/QuickActions";
 import { DeliveryStatus } from "@/components/dashboard/DeliveryStatus";
 import { PriorityAlerts } from "@/components/dashboard/PriorityAlerts";
+import { cn } from "@/lib/utils";
+
+function CollapsibleSection({
+  title,
+  icon: Icon,
+  badge,
+  children,
+  defaultOpen = false,
+}: {
+  title: string;
+  icon: React.ElementType;
+  badge?: string;
+  children: React.ReactNode;
+  defaultOpen?: boolean;
+}) {
+  const [open, setOpen] = useState(defaultOpen);
+  return (
+    <div className="card-elevated overflow-hidden">
+      <button
+        onClick={() => setOpen(!open)}
+        className="w-full flex items-center justify-between px-5 py-4 hover:bg-muted/30 transition-colors touch-target"
+      >
+        <div className="flex items-center gap-2.5">
+          <Icon className="h-4.5 w-4.5 text-primary" />
+          <h2 className="font-serif text-base font-semibold text-foreground">{title}</h2>
+          {badge && (
+            <span className="text-[11px] font-medium text-primary bg-primary/10 px-2 py-0.5 rounded-full">
+              {badge}
+            </span>
+          )}
+        </div>
+        {open ? (
+          <ChevronUp className="h-4 w-4 text-muted-foreground" />
+        ) : (
+          <ChevronDown className="h-4 w-4 text-muted-foreground" />
+        )}
+      </button>
+      <div
+        className={cn(
+          "transition-all duration-200 overflow-hidden",
+          open ? "max-h-[2000px] opacity-100" : "max-h-0 opacity-0"
+        )}
+      >
+        <div className="border-t border-border">{children}</div>
+      </div>
+    </div>
+  );
+}
 
 export default function Dashboard() {
   const currentHour = new Date().getHours();
-  const greeting = currentHour < 12 ? "Good morning" : currentHour < 17 ? "Good afternoon" : "Good evening";
+  const greeting =
+    currentHour < 12 ? "Good morning" : currentHour < 17 ? "Good afternoon" : "Good evening";
 
   return (
-    <div className="space-y-6 animate-fade-in">
-      {/* Header */}
+    <div className="space-y-4 animate-fade-in">
+      {/* Header — condensed */}
       <div>
-        <h1 className="font-serif text-2xl lg:text-3xl font-semibold text-foreground">
+        <h1 className="font-serif text-xl lg:text-2xl font-semibold text-foreground">
           {greeting}, Sarah
         </h1>
-        <p className="text-muted-foreground mt-1">
-          Here's your care schedule for today
+        <p className="text-sm text-muted-foreground">
+          5 visits · 2 deliveries · 4 pending tasks
         </p>
       </div>
 
-      {/* Stats */}
+      {/* Compact stats row */}
       <DashboardStats />
 
-      {/* Priority alerts — mobile shows first */}
-      <div className="lg:hidden">
-        <PriorityAlerts />
-      </div>
+      {/* Priority alerts — always visible */}
+      <PriorityAlerts />
 
-      {/* Main content grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Schedule - takes 2 columns */}
-        <div className="lg:col-span-2 space-y-6">
-          <TodaySchedule />
-        </div>
+      {/* Today's schedule — always visible, condensed */}
+      <TodaySchedule />
 
-        {/* Sidebar */}
-        <div className="space-y-6">
-          {/* Priority alerts — desktop in sidebar */}
-          <div className="hidden lg:block">
-            <PriorityAlerts />
+      {/* Quick actions — always accessible */}
+      <QuickActions />
+
+      {/* Expandable sections */}
+      <CollapsibleSection title="Deliveries" icon={Truck} badge="2 active">
+        <DeliveryStatus />
+      </CollapsibleSection>
+
+      <CollapsibleSection title="Hours This Week" icon={Clock} badge="32/40h">
+        <HoursCompact />
+      </CollapsibleSection>
+
+      <CollapsibleSection title="All Tasks" icon={ListChecks} badge="4 pending">
+        <TaskSummary />
+      </CollapsibleSection>
+    </div>
+  );
+}
+
+/** Inline compact hours view for the dashboard expandable section */
+function HoursCompact() {
+  const days = [
+    { day: "Mon", hours: 8 },
+    { day: "Tue", hours: 7.5 },
+    { day: "Wed", hours: 8.5 },
+    { day: "Thu", hours: 8 },
+    { day: "Fri", hours: 0 },
+  ];
+  return (
+    <div className="px-5 py-4 space-y-2">
+      {days.map((d) => (
+        <div key={d.day} className="flex items-center gap-3 text-sm">
+          <span className="w-10 font-medium text-muted-foreground">{d.day}</span>
+          <div className="flex-1 h-2 rounded-full bg-muted overflow-hidden">
+            <div
+              className="h-full rounded-full bg-primary transition-all"
+              style={{ width: `${(d.hours / 8) * 100}%` }}
+            />
           </div>
-          <QuickActions />
-          <DeliveryStatus />
+          <span className="w-10 text-right text-muted-foreground">
+            {d.hours > 0 ? `${d.hours}h` : "—"}
+          </span>
         </div>
-      </div>
+      ))}
+      <p className="text-xs text-muted-foreground pt-1">32h worked · 8h remaining of 40h target</p>
+    </div>
+  );
+}
+
+/** Inline task summary for the dashboard expandable section */
+function TaskSummary() {
+  const tasks = [
+    { label: "Awaiting family decision — D.LEW", priority: "critical" as const, type: "Pending response" },
+    { label: "Lab results — R.KIM", priority: "high" as const, type: "Waiting on results" },
+    { label: "Pain mgmt re-eval — E.WRI", priority: "high" as const, type: "Assessment" },
+    { label: "O₂ delivery — D.LEW", priority: "medium" as const, type: "Delivery @ 2:30 PM" },
+    { label: "Follow-up note — M.HEN", priority: "low" as const, type: "Documentation" },
+  ];
+
+  return (
+    <div className="divide-y divide-border">
+      {tasks.map((task, i) => (
+        <div key={i} className="px-5 py-3 flex items-center gap-3">
+          <span className={cn("priority-dot", `priority-${task.priority}`)} />
+          <div className="flex-1 min-w-0">
+            <p className="text-sm font-medium text-foreground truncate">{task.label}</p>
+            <p className="text-xs text-muted-foreground">{task.type}</p>
+          </div>
+        </div>
+      ))}
     </div>
   );
 }
