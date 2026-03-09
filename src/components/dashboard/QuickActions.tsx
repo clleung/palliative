@@ -1,10 +1,21 @@
+import { useState } from "react";
 import { 
   Navigation, 
   FileText, 
   Truck,
-  AlertCircle 
+  AlertCircle,
+  Bot
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { RobotDispatch } from "@/components/robots/RobotDispatch";
 
 const actions = [
   {
@@ -12,24 +23,28 @@ const actions = [
     icon: Navigation,
     variant: "default" as const,
     description: "Open route to next patient",
+    action: "navigate",
   },
   {
     label: "New Visit Note",
     icon: FileText,
     variant: "outline" as const,
     description: "Document a visit",
+    action: "note",
   },
   {
-    label: "Request Delivery",
-    icon: Truck,
+    label: "Send Robot",
+    icon: Bot,
     variant: "outline" as const,
-    description: "Oxygen, equipment, meds",
+    description: "Dispatch robot to patient",
+    action: "robot",
   },
   {
     label: "Report Concern",
     icon: AlertCircle,
     variant: "outline" as const,
     description: "Flag for review",
+    action: "concern",
   },
 ];
 
