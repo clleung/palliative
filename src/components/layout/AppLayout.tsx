@@ -16,7 +16,8 @@ import {
   Monitor,
   Smartphone,
   Settings,
-  LogOut
+  LogOut,
+  Bot
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -26,6 +27,17 @@ import { useIsMobile } from "@/hooks/use-mobile";
 const navigation = [
   { name: "Dashboard", href: "/", icon: LayoutDashboard },
   { name: "Patients", href: "/patients", icon: Users },
+  { name: "Route Planning", href: "/routes", icon: MapPin },
+  { name: "Schedule", href: "/schedule", icon: Calendar },
+  { name: "Time Tracking", href: "/hours", icon: Clock },
+  { name: "Deliveries", href: "/deliveries", icon: Truck },
+  { name: "Settings", href: "/settings", icon: Settings },
+];
+
+const adminNavigation = [
+  { name: "Dashboard", href: "/", icon: LayoutDashboard },
+  { name: "Patients", href: "/patients", icon: Users },
+  { name: "Robot Fleet", href: "/robot-fleet", icon: Bot },
   { name: "Route Planning", href: "/routes", icon: MapPin },
   { name: "Schedule", href: "/schedule", icon: Calendar },
   { name: "Time Tracking", href: "/hours", icon: Clock },
