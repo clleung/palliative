@@ -51,8 +51,9 @@ export function AppLayout({ children }: AppLayoutProps) {
     <div className="min-h-screen bg-background">
       {/* Skip to main content — WCAG 2.4.1 */}
       <a href="#main-content" className="skip-link">Skip to main content</a>
+      {/* Mobile bottom navigation — field worker mode */}
       {!isAdmin && (
-        <nav className="lg:hidden fixed bottom-0 left-0 right-0 z-50 bg-card border-t border-border px-2 pb-safe">
+        <nav className="lg:hidden fixed bottom-0 left-0 right-0 z-50 bg-card border-t border-border px-2 pb-safe" aria-label="Mobile navigation">
           <div className="flex items-center justify-around">
             {navigation.slice(0, 5).map((item) => {
               const isActive = location.pathname === item.href;
