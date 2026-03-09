@@ -28,9 +28,9 @@
     --secondary: 270 20% 94%;
     --secondary-foreground: 270 30% 25%;
 
-    /* Muted warm tones */
+    /* Muted warm tones — foreground meets 4.5:1 on light bg */
     --muted: 30 15% 94%;
-    --muted-foreground: 260 10% 45%;
+    --muted-foreground: 260 10% 38%;
 
     /* Soft peach accent */
     --accent: 20 55% 93%;
