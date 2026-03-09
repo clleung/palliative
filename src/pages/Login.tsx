@@ -303,8 +303,8 @@ export default function Login() {
 
         {/* Security footer */}
         <div className="flex items-center justify-center gap-2 text-xs text-muted-foreground">
-          <Shield className="h-3.5 w-3.5" />
-          <span>HIPAA & GDPR compliant · AES-256 encrypted</span>
+          <Shield className="h-3.5 w-3.5" aria-hidden="true" />
+          <span>HIPAA &amp; GDPR compliant · AES-256 encrypted</span>
         </div>
       </div>
     </div>
