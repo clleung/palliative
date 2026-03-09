@@ -42,6 +42,7 @@ export function AppLayout({ children }: AppLayoutProps) {
   const [wellnessOpen, setWellnessOpen] = useState(false);
   const [viewMode, setViewMode] = useState<"field" | "admin">("field");
   const location = useLocation();
+  const { signOut, workerProfile } = useAuth();
   const isMobile = useIsMobile();
 
   const isAdmin = viewMode === "admin";
