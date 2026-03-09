@@ -2,115 +2,122 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap');
 
-/* Palliative Care Application Design System
-   Warm, calming, professional - designed for sensitive healthcare contexts
-*/
+/* CareCompass Design System — Warm Plum & Lavender
+   Professional, human-centered, distinct from health status colors */
 
 @layer base {
   :root {
-    /* Warm cream background - soft and inviting */
-    --background: 40 33% 98%;
-    --foreground: 220 20% 20%;
+    /* Warm cream background */
+    --background: 30 30% 98%;
+    --foreground: 260 20% 15%;
 
-    /* Cards with subtle warmth */
-    --card: 40 40% 99%;
-    --card-foreground: 220 20% 20%;
+    /* Cards */
+    --card: 30 25% 99%;
+    --card-foreground: 260 20% 15%;
 
-    --popover: 40 40% 99%;
-    --popover-foreground: 220 20% 20%;
+    --popover: 30 25% 99%;
+    --popover-foreground: 260 20% 15%;
 
-    /* Soft sage green - calming, life-affirming */
-    --primary: 150 25% 42%;
-    --primary-foreground: 40 40% 99%;
+    /* Deep plum primary — distinct from any health status */
+    --primary: 270 40% 45%;
+    --primary-foreground: 30 25% 99%;
 
-    /* Warm neutral secondary */
-    --secondary: 35 20% 93%;
-    --secondary-foreground: 220 20% 25%;
+    /* Warm lavender secondary */
+    --secondary: 270 20% 94%;
+    --secondary-foreground: 270 30% 25%;
 
-    /* Muted sage tones */
-    --muted: 40 15% 94%;
-    --muted-foreground: 220 10% 45%;
+    /* Muted warm tones */
+    --muted: 30 15% 94%;
+    --muted-foreground: 260 10% 45%;
 
-    /* Soft coral accent - warmth and gentle alerts */
-    --accent: 15 60% 92%;
-    --accent-foreground: 15 50% 35%;
+    /* Soft peach accent */
+    --accent: 20 55% 93%;
+    --accent-foreground: 20 45% 30%;
 
-    /* Gentle warning/alert tones */
+    /* Alerts — warm red */
     --destructive: 0 55% 55%;
-    --destructive-foreground: 40 40% 99%;
+    --destructive-foreground: 30 25% 99%;
 
-    /* Subtle borders */
-    --border: 40 20% 88%;
-    --input: 40 20% 88%;
-    --ring: 150 25% 42%;
+    /* Borders */
+    --border: 270 12% 90%;
+    --input: 270 12% 88%;
+    --ring: 270 40% 45%;
 
     --radius: 0.75rem;
 
-    /* Status colors for medical context */
+    /* Status colors — clearly medical, NOT primary palette */
     --status-urgent: 0 70% 55%;
     --status-attention: 35 85% 55%;
     --status-stable: 150 40% 45%;
     --status-info: 200 60% 50%;
 
-    /* Wellness check-in gradients */
-    --gradient-calm: linear-gradient(135deg, hsl(150 25% 95%), hsl(40 33% 98%));
-    --gradient-card: linear-gradient(180deg, hsl(40 40% 99%), hsl(40 30% 97%));
+    /* Priority colors */
+    --priority-critical: 0 70% 55%;
+    --priority-high: 25 90% 55%;
+    --priority-medium: 45 85% 50%;
+    --priority-low: 200 50% 55%;
 
-    /* Shadows - soft and warm */
-    --shadow-sm: 0 1px 2px hsl(220 20% 20% / 0.04);
-    --shadow-md: 0 4px 12px hsl(220 20% 20% / 0.06);
-    --shadow-lg: 0 8px 24px hsl(220 20% 20% / 0.08);
+    /* Gradients */
+    --gradient-calm: linear-gradient(135deg, hsl(270 30% 96%), hsl(30 30% 98%));
+    --gradient-card: linear-gradient(180deg, hsl(30 25% 99%), hsl(270 15% 97%));
+    --gradient-hero: linear-gradient(135deg, hsl(270 40% 45%), hsl(310 35% 50%));
+
+    /* Shadows */
+    --shadow-sm: 0 1px 2px hsl(260 20% 15% / 0.04);
+    --shadow-md: 0 4px 12px hsl(260 20% 15% / 0.06);
+    --shadow-lg: 0 8px 24px hsl(260 20% 15% / 0.08);
+    --shadow-glow: 0 0 20px hsl(270 40% 45% / 0.15);
 
     /* Sidebar */
-    --sidebar-background: 40 25% 97%;
-    --sidebar-foreground: 220 20% 25%;
-    --sidebar-primary: 150 25% 42%;
-    --sidebar-primary-foreground: 40 40% 99%;
-    --sidebar-accent: 150 20% 94%;
-    --sidebar-accent-foreground: 150 25% 30%;
-    --sidebar-border: 40 20% 90%;
-    --sidebar-ring: 150 25% 42%;
+    --sidebar-background: 270 18% 97%;
+    --sidebar-foreground: 260 20% 20%;
+    --sidebar-primary: 270 40% 45%;
+    --sidebar-primary-foreground: 30 25% 99%;
+    --sidebar-accent: 270 20% 94%;
+    --sidebar-accent-foreground: 270 35% 30%;
+    --sidebar-border: 270 12% 91%;
+    --sidebar-ring: 270 40% 45%;
   }
 
   .dark {
-    --background: 220 20% 10%;
-    --foreground: 40 20% 95%;
+    --background: 260 18% 9%;
+    --foreground: 30 15% 95%;
 
-    --card: 220 18% 13%;
-    --card-foreground: 40 20% 95%;
+    --card: 260 16% 12%;
+    --card-foreground: 30 15% 95%;
 
-    --popover: 220 18% 13%;
-    --popover-foreground: 40 20% 95%;
+    --popover: 260 16% 12%;
+    --popover-foreground: 30 15% 95%;
 
-    --primary: 150 30% 55%;
-    --primary-foreground: 220 20% 10%;
+    --primary: 270 45% 65%;
+    --primary-foreground: 260 18% 9%;
 
-    --secondary: 220 15% 18%;
-    --secondary-foreground: 40 20% 90%;
+    --secondary: 260 15% 18%;
+    --secondary-foreground: 30 15% 90%;
 
-    --muted: 220 15% 18%;
-    --muted-foreground: 40 10% 60%;
+    --muted: 260 15% 18%;
+    --muted-foreground: 30 10% 60%;
 
-    --accent: 15 40% 20%;
-    --accent-foreground: 15 50% 80%;
+    --accent: 20 35% 18%;
+    --accent-foreground: 20 45% 80%;
 
     --destructive: 0 55% 45%;
-    --destructive-foreground: 40 20% 95%;
+    --destructive-foreground: 30 15% 95%;
 
-    --border: 220 15% 20%;
-    --input: 220 15% 20%;
-    --ring: 150 30% 55%;
+    --border: 260 12% 20%;
+    --input: 260 12% 20%;
+    --ring: 270 45% 65%;
 
-    --sidebar-background: 220 18% 12%;
-    --sidebar-foreground: 40 20% 90%;
-    --sidebar-primary: 150 30% 55%;
-    --sidebar-primary-foreground: 220 20% 10%;
-    --sidebar-accent: 220 15% 18%;
-    --sidebar-accent-foreground: 40 20% 90%;
-    --sidebar-border: 220 15% 18%;
-    --sidebar-ring: 150 30% 55%;
+    --sidebar-background: 260 16% 11%;
+    --sidebar-foreground: 30 15% 90%;
+    --sidebar-primary: 270 45% 65%;
+    --sidebar-primary-foreground: 260 18% 9%;
+    --sidebar-accent: 260 15% 18%;
+    --sidebar-accent-foreground: 30 15% 90%;
+    --sidebar-border: 260 12% 18%;
+    --sidebar-ring: 270 45% 65%;
   }
 }
 
@@ -121,11 +128,11 @@
 
   body {
     @apply bg-background text-foreground antialiased;
-    font-family: 'Inter', system-ui, sans-serif;
+    font-family: 'DM Sans', system-ui, sans-serif;
   }
 
   h1, h2, h3 {
-    font-family: 'Libre Baskerville', Georgia, serif;
+    font-family: 'Playfair Display', Georgia, serif;
   }
 }
 
@@ -153,5 +160,37 @@
 
   .privacy-indicator {
     @apply flex items-center gap-1.5 text-xs text-muted-foreground;
+  }
+
+  /* Mobile-first touch targets */
+  .touch-target {
+    @apply min-h-[44px] min-w-[44px];
+  }
+
+  /* Priority indicator dot */
+  .priority-dot {
+    @apply w-2.5 h-2.5 rounded-full flex-shrink-0;
+  }
+
+  .priority-critical {
+    background-color: hsl(var(--priority-critical));
+  }
+
+  .priority-high {
+    background-color: hsl(var(--priority-high));
+  }
+
+  .priority-medium {
+    background-color: hsl(var(--priority-medium));
+  }
+
+  .priority-low {
+    background-color: hsl(var(--priority-low));
+  }
+
+  /* Human-centered patient card */
+  .patient-hero {
+    @apply relative overflow-hidden rounded-2xl;
+    background: var(--gradient-hero);
   }
 }

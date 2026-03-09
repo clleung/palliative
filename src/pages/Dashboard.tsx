@@ -2,6 +2,7 @@ import { DashboardStats } from "@/components/dashboard/DashboardStats";
 import { TodaySchedule } from "@/components/dashboard/TodaySchedule";
 import { QuickActions } from "@/components/dashboard/QuickActions";
 import { DeliveryStatus } from "@/components/dashboard/DeliveryStatus";
+import { PriorityAlerts } from "@/components/dashboard/PriorityAlerts";
 
 export default function Dashboard() {
   const currentHour = new Date().getHours();
@@ -22,15 +23,24 @@ export default function Dashboard() {
       {/* Stats */}
       <DashboardStats />
 
+      {/* Priority alerts — mobile shows first */}
+      <div className="lg:hidden">
+        <PriorityAlerts />
+      </div>
+
       {/* Main content grid */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Schedule - takes 2 columns */}
-        <div className="lg:col-span-2">
+        <div className="lg:col-span-2 space-y-6">
           <TodaySchedule />
         </div>
 
-        {/* Sidebar - quick actions and deliveries */}
+        {/* Sidebar */}
         <div className="space-y-6">
+          {/* Priority alerts — desktop in sidebar */}
+          <div className="hidden lg:block">
+            <PriorityAlerts />
+          </div>
           <QuickActions />
           <DeliveryStatus />
         </div>
