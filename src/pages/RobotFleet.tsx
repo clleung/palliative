@@ -40,6 +40,8 @@ interface Robot {
   currentLocation: string;
   assignedPatient?: string;
   lastSeenAt: string;
+  lat: number;
+  lng: number;
 }
 
 interface RobotTask {
