@@ -1,11 +1,12 @@
 import { useState } from "react";
-import { ChevronDown, ChevronUp, Truck, Clock, ListChecks } from "lucide-react";
+import { ChevronDown, ChevronUp, Truck, Clock, ListChecks, Bot } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { DashboardStats } from "@/components/dashboard/DashboardStats";
 import { TodaySchedule } from "@/components/dashboard/TodaySchedule";
 import { QuickActions } from "@/components/dashboard/QuickActions";
 import { DeliveryStatus } from "@/components/dashboard/DeliveryStatus";
 import { PriorityAlerts } from "@/components/dashboard/PriorityAlerts";
+import { RobotFleetWidget } from "@/components/robots/RobotDispatch";
 import { cn } from "@/lib/utils";
 
 function CollapsibleSection({
@@ -83,6 +84,10 @@ export default function Dashboard() {
       <QuickActions />
       <DashboardStats />
       <PriorityAlerts />
+      
+      {/* Robot Fleet Widget - for specialists to dispatch robots */}
+      <RobotFleetWidget />
+      
       <TodaySchedule />
 
       <CollapsibleSection title="Deliveries" icon={Truck} badge="2 active">

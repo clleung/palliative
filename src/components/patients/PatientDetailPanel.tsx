@@ -13,6 +13,7 @@ import {
   Pill,
   Activity,
   Watch,
+  Bot,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -20,6 +21,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { cn } from "@/lib/utils";
 import { PatientConditionIcons, PatientCondition, getMockConditions } from "./PatientConditionIcons";
 import { PatientVitals, VitalReading, getMockVitals } from "./PatientVitals";
+import { RobotDispatch } from "@/components/robots/RobotDispatch";
 
 interface PatientDetail {
   id: string;
@@ -228,6 +230,15 @@ export function PatientDetailPanel({ patient, onClose }: PatientDetailPanelProps
                     </span>
                   ))}
                 </div>
+              </div>
+
+              {/* Robot dispatch section */}
+              <div className="pt-2 border-t border-border">
+                <div className="flex items-center gap-2 mb-3">
+                  <Bot className="h-4 w-4 text-primary" aria-hidden="true" />
+                  <h4 className="text-sm font-semibold text-foreground">Send Robot</h4>
+                </div>
+                <RobotDispatch patientName={patient.name} patientId={patient.id} compact />
               </div>
             </TabsContent>
 
