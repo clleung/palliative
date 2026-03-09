@@ -4,6 +4,8 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { abbreviateName } from "@/lib/privacy";
 import { todayVisits } from "@/data/visits";
+import { PatientConditionIcons, getMockConditions } from "@/components/patients/PatientConditionIcons";
+import { PatientVitals, getMockVitals } from "@/components/patients/PatientVitals";
 
 export function TodaySchedule() {
   return (
