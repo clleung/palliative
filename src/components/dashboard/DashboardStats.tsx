@@ -38,11 +38,13 @@ const stats = [
 
 export function DashboardStats() {
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4" role="list" aria-label="Dashboard statistics">
       {stats.map((stat) => (
         <div
           key={stat.name}
           className="card-elevated p-5 animate-fade-in"
+          role="listitem"
+          aria-label={`${stat.name}: ${stat.value} ${stat.subtext}. ${stat.trend}`}
         >
           <div className="flex items-start justify-between">
             <div className="flex-1">
@@ -62,16 +64,19 @@ export function DashboardStats() {
               "p-2.5 rounded-xl",
               stat.trendType === "attention" ? "bg-red-100" : "bg-primary/10"
             )}>
-              <stat.icon className={cn(
-                "h-5 w-5",
-                stat.trendType === "attention" ? "text-red-600" : "text-primary"
-              )} />
+              <stat.icon
+                className={cn(
+                  "h-5 w-5",
+                  stat.trendType === "attention" ? "text-red-700" : "text-primary"
+                )}
+                aria-hidden="true"
+              />
             </div>
           </div>
           <p className={cn(
             "mt-3 text-xs font-medium",
-            stat.trendType === "positive" && "text-emerald-600",
-            stat.trendType === "attention" && "text-red-600",
+            stat.trendType === "positive" && "text-emerald-700",
+            stat.trendType === "attention" && "text-red-700",
             stat.trendType === "neutral" && "text-muted-foreground"
           )}>
             {stat.trend}

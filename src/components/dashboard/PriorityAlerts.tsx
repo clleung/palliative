@@ -50,24 +50,34 @@ const priorityItems: PriorityItem[] = [
   },
 ];
 
+const priorityLabels: Record<string, string> = {
+  critical: "Critical priority",
+  high: "High priority",
+  medium: "Medium priority",
+};
+
 export function PriorityAlerts() {
   return (
-    <div className="card-elevated overflow-hidden">
+    <div className="card-elevated overflow-hidden" role="region" aria-labelledby="priority-queue-heading">
       <div className="px-5 py-3 border-b border-border flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <AlertTriangle className="h-4 w-4 text-priority-high" />
-          <h2 className="font-serif text-base font-semibold">Priority Queue</h2>
+          <AlertTriangle className="h-4 w-4 text-priority-high" aria-hidden="true" />
+          <h2 id="priority-queue-heading" className="font-serif text-base font-semibold">Priority Queue</h2>
         </div>
-        <span className="text-[11px] font-medium text-primary bg-primary/10 px-2 py-0.5 rounded-full">
+        <span className="text-[11px] font-medium text-primary bg-primary/10 px-2 py-0.5 rounded-full" aria-label={`${priorityItems.length} priority items`}>
           {priorityItems.length} items
         </span>
       </div>
 
-      <div className="divide-y divide-border">
+      <div className="divide-y divide-border" role="list" aria-label="Priority alerts">
         {priorityItems.map((item) => (
-          <div key={item.id} className="px-5 py-3 hover:bg-muted/30 transition-colors">
+          <div key={item.id} className="px-5 py-3 hover:bg-muted/30 transition-colors" role="listitem">
             <div className="flex items-start gap-3">
-              <span className={cn("priority-dot mt-1", `priority-${item.priority}`)} />
+              <span
+                className={cn("priority-dot mt-1", `priority-${item.priority}`)}
+                role="img"
+                aria-label={priorityLabels[item.priority]}
+              />
               <div className="flex-1 min-w-0">
                 <p className="text-sm font-medium text-foreground">
                   {abbreviateName(item.patientFullName)} — {item.context}
@@ -75,9 +85,14 @@ export function PriorityAlerts() {
                 <p className="text-xs text-muted-foreground mt-0.5">{item.subtitle}</p>
               </div>
               {item.action && (
-                <Button variant="ghost" size="sm" className="text-xs text-primary flex-shrink-0 gap-1 h-7">
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="text-xs text-primary flex-shrink-0 gap-1 h-7"
+                  aria-label={`${item.action} for ${abbreviateName(item.patientFullName)}`}
+                >
                   {item.action}
-                  <ChevronRight className="h-3 w-3" />
+                  <ChevronRight className="h-3 w-3" aria-hidden="true" />
                 </Button>
               )}
             </div>

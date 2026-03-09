@@ -1,8 +1,6 @@
 import { 
-  Plus, 
   Navigation, 
   FileText, 
-  Phone, 
   Truck,
   AlertCircle 
 } from "lucide-react";
@@ -37,20 +35,21 @@ const actions = [
 
 export function QuickActions() {
   return (
-    <div className="card-elevated p-5">
-      <h2 className="font-serif text-lg font-semibold mb-4">Quick Actions</h2>
+    <div className="card-elevated p-5" role="region" aria-labelledby="quick-actions-heading">
+      <h2 id="quick-actions-heading" className="font-serif text-lg font-semibold mb-4">Quick Actions</h2>
       
-      <div className="grid grid-cols-2 gap-3">
+      <div className="grid grid-cols-2 gap-3" role="group" aria-label="Quick action buttons">
         {actions.map((action) => (
           <Button
             key={action.label}
             variant={action.variant}
             className="h-auto py-4 flex-col gap-2"
+            aria-label={`${action.label}: ${action.description}`}
           >
-            <action.icon className="h-5 w-5" />
+            <action.icon className="h-5 w-5" aria-hidden="true" />
             <div className="text-center">
               <div className="font-medium text-sm">{action.label}</div>
-              <div className="text-xs opacity-70 font-normal mt-0.5">
+              <div className="text-xs opacity-70 font-normal mt-0.5" aria-hidden="true">
                 {action.description}
               </div>
             </div>

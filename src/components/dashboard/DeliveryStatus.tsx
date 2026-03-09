@@ -17,21 +17,21 @@ const deliveries: Delivery[] = [
 ];
 
 const statusConfig = {
-  pending: { icon: Clock, label: "Pending", className: "text-amber-600 bg-amber-100" },
-  "in-transit": { icon: Truck, label: "In Transit", className: "text-blue-600 bg-blue-100" },
-  delivered: { icon: CheckCircle, label: "Delivered", className: "text-emerald-600 bg-emerald-100" },
+  pending: { icon: Clock, label: "Pending", className: "text-amber-800 bg-amber-100" },
+  "in-transit": { icon: Truck, label: "In Transit", className: "text-blue-800 bg-blue-100" },
+  delivered: { icon: CheckCircle, label: "Delivered", className: "text-emerald-800 bg-emerald-100" },
 };
 
 export function DeliveryStatus() {
   return (
-    <div className="divide-y divide-border">
+    <div className="divide-y divide-border" role="list" aria-label="Delivery status">
       {deliveries.map((delivery) => {
         const status = statusConfig[delivery.status];
         const StatusIcon = status.icon;
         return (
-          <div key={delivery.id} className="flex items-center gap-3 px-5 py-3">
+          <div key={delivery.id} className="flex items-center gap-3 px-5 py-3" role="listitem" aria-label={`${delivery.item} for ${abbreviateName(delivery.patientFullName)}: ${status.label}`}>
             <div className={cn("p-1.5 rounded-lg", status.className)}>
-              <StatusIcon className="h-3.5 w-3.5" />
+              <StatusIcon className="h-3.5 w-3.5" aria-hidden="true" />
             </div>
             <div className="flex-1 min-w-0">
               <p className="font-medium text-sm truncate">{delivery.item}</p>
@@ -40,6 +40,7 @@ export function DeliveryStatus() {
                 {delivery.eta && ` · ETA: ${delivery.eta}`}
               </p>
             </div>
+            <span className="text-xs font-medium text-muted-foreground">{status.label}</span>
           </div>
         );
       })}

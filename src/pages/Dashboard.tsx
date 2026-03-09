@@ -22,32 +22,40 @@ function CollapsibleSection({
   defaultOpen?: boolean;
 }) {
   const [open, setOpen] = useState(defaultOpen);
+  const sectionId = title.replace(/\s+/g, "-").toLowerCase();
+
   return (
-    <div className="card-elevated overflow-hidden">
+    <div className="card-elevated overflow-hidden" role="region" aria-labelledby={`heading-${sectionId}`}>
       <button
         onClick={() => setOpen(!open)}
+        aria-expanded={open}
+        aria-controls={`content-${sectionId}`}
         className="w-full flex items-center justify-between px-5 py-4 hover:bg-muted/30 transition-colors touch-target"
       >
         <div className="flex items-center gap-2.5">
-          <Icon className="h-4.5 w-4.5 text-primary" />
-          <h2 className="font-serif text-base font-semibold text-foreground">{title}</h2>
+          <Icon className="h-4.5 w-4.5 text-primary" aria-hidden="true" />
+          <h2 id={`heading-${sectionId}`} className="font-serif text-base font-semibold text-foreground">{title}</h2>
           {badge && (
-            <span className="text-[11px] font-medium text-primary bg-primary/10 px-2 py-0.5 rounded-full">
+            <span className="text-[11px] font-medium text-primary bg-primary/10 px-2 py-0.5 rounded-full" aria-label={badge}>
               {badge}
             </span>
           )}
         </div>
         {open ? (
-          <ChevronUp className="h-4 w-4 text-muted-foreground" />
+          <ChevronUp className="h-4 w-4 text-muted-foreground" aria-hidden="true" />
         ) : (
-          <ChevronDown className="h-4 w-4 text-muted-foreground" />
+          <ChevronDown className="h-4 w-4 text-muted-foreground" aria-hidden="true" />
         )}
       </button>
       <div
+        id={`content-${sectionId}`}
+        role="region"
+        aria-labelledby={`heading-${sectionId}`}
         className={cn(
           "transition-all duration-200 overflow-hidden",
           open ? "max-h-[2000px] opacity-100" : "max-h-0 opacity-0"
         )}
+        hidden={!open}
       >
         <div className="border-t border-border">{children}</div>
       </div>
@@ -61,8 +69,8 @@ export default function Dashboard() {
     currentHour < 12 ? "Good morning" : currentHour < 17 ? "Good afternoon" : "Good evening";
 
   return (
-    <div className="space-y-4 animate-fade-in">
-      {/* Header — condensed */}
+    <div className="space-y-4 animate-fade-in" role="main">
+      {/* Header */}
       <div>
         <h1 className="font-serif text-xl lg:text-2xl font-semibold text-foreground">
           {greeting}, Sarah
@@ -72,19 +80,11 @@ export default function Dashboard() {
         </p>
       </div>
 
-      {/* Quick actions — top for easy access */}
       <QuickActions />
-
-      {/* Compact stats row */}
       <DashboardStats />
-
-      {/* Priority alerts — always visible */}
       <PriorityAlerts />
-
-      {/* Today's schedule — always visible, condensed */}
       <TodaySchedule />
 
-      {/* Expandable sections */}
       <CollapsibleSection title="Deliveries" icon={Truck} badge="2 active">
         <DeliveryStatus />
       </CollapsibleSection>
@@ -100,7 +100,6 @@ export default function Dashboard() {
   );
 }
 
-/** Inline compact hours view for the dashboard expandable section */
 function HoursCompact() {
   const days = [
     { day: "Mon", hours: 8 },
@@ -110,11 +109,11 @@ function HoursCompact() {
     { day: "Fri", hours: 0 },
   ];
   return (
-    <div className="px-5 py-4 space-y-2">
+    <div className="px-5 py-4 space-y-2" role="list" aria-label="Hours worked by day">
       {days.map((d) => (
-        <div key={d.day} className="flex items-center gap-3 text-sm">
+        <div key={d.day} className="flex items-center gap-3 text-sm" role="listitem">
           <span className="w-10 font-medium text-muted-foreground">{d.day}</span>
-          <div className="flex-1 h-2 rounded-full bg-muted overflow-hidden">
+          <div className="flex-1 h-2 rounded-full bg-muted overflow-hidden" role="progressbar" aria-valuenow={d.hours} aria-valuemin={0} aria-valuemax={8} aria-label={`${d.day}: ${d.hours} hours`}>
             <div
               className="h-full rounded-full bg-primary transition-all"
               style={{ width: `${(d.hours / 8) * 100}%` }}
@@ -130,7 +129,13 @@ function HoursCompact() {
   );
 }
 
-/** Inline task summary for the dashboard expandable section */
+const priorityLabels: Record<string, string> = {
+  critical: "Critical priority",
+  high: "High priority",
+  medium: "Medium priority",
+  low: "Low priority",
+};
+
 function TaskSummary() {
   const tasks = [
     { label: "Awaiting family decision — D.LEW", priority: "critical" as const, type: "Pending response" },
@@ -141,10 +146,14 @@ function TaskSummary() {
   ];
 
   return (
-    <div className="divide-y divide-border">
+    <div className="divide-y divide-border" role="list" aria-label="Task summary">
       {tasks.map((task, i) => (
-        <div key={i} className="px-5 py-3 flex items-center gap-3">
-          <span className={cn("priority-dot", `priority-${task.priority}`)} />
+        <div key={i} className="px-5 py-3 flex items-center gap-3" role="listitem">
+          <span
+            className={cn("priority-dot", `priority-${task.priority}`)}
+            role="img"
+            aria-label={priorityLabels[task.priority]}
+          />
           <div className="flex-1 min-w-0">
             <p className="text-sm font-medium text-foreground truncate">{task.label}</p>
             <p className="text-xs text-muted-foreground">{task.type}</p>
