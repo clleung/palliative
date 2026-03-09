@@ -5,6 +5,8 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import { PatientDetailPanel } from "@/components/patients/PatientDetailPanel";
+import { PatientConditionIcons, getMockConditions, PatientCondition } from "@/components/patients/PatientConditionIcons";
+import { PatientVitals, getMockVitals, VitalReading } from "@/components/patients/PatientVitals";
 import { abbreviateName, getInitials, getAvatarColor } from "@/lib/privacy";
 
 interface Patient {
