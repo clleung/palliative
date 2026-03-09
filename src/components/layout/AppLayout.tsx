@@ -79,8 +79,8 @@ export function AppLayout({ children }: AppLayoutProps) {
       <header className="lg:hidden fixed top-0 left-0 right-0 z-50 bg-card/95 backdrop-blur-md border-b border-border px-4 py-3">
         <div className="flex items-center justify-between">
           {isAdmin ? (
-            <Button variant="ghost" size="icon" onClick={() => setSidebarOpen(true)} className="touch-target">
-              <Menu className="h-5 w-5" />
+            <Button variant="ghost" size="icon" onClick={() => setSidebarOpen(true)} className="touch-target" aria-label="Open sidebar menu">
+              <Menu className="h-5 w-5" aria-hidden="true" />
             </Button>
           ) : (
             <div className="flex items-center gap-2">
