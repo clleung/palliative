@@ -249,8 +249,8 @@ export function AppLayout({ children }: AppLayoutProps) {
         <div className="hidden lg:flex items-center justify-between px-8 py-4 border-b border-border bg-card">
           <div />
           <div className="flex items-center gap-3">
-            <Button variant="ghost" size="icon">
-              <Bell className="h-5 w-5" />
+            <Button variant="ghost" size="icon" aria-label="Notifications">
+              <Bell className="h-5 w-5" aria-hidden="true" />
             </Button>
             <Button
               variant="outline"
