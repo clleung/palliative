@@ -262,6 +262,32 @@ export default function RobotFleet() {
           </div>
         </TabsContent>
 
+        <TabsContent value="map">
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-base flex items-center gap-2">
+                <Map className="h-4 w-4" aria-hidden="true" />
+                Live Robot Locations
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="p-0">
+              <RobotLocationMap
+                robots={robots.map(r => ({
+                  id: r.id,
+                  name: r.name,
+                  robotId: r.robotId,
+                  status: r.status,
+                  batteryLevel: r.batteryLevel,
+                  lat: r.lat,
+                  lng: r.lng,
+                  assignedPatient: r.assignedPatient,
+                }))}
+                className="rounded-b-xl min-h-[450px]"
+              />
+            </CardContent>
+          </Card>
+        </TabsContent>
+
         <TabsContent value="tasks" className="space-y-3">
           {/* Task filters */}
           <div className="flex items-center gap-2 overflow-x-auto pb-1">

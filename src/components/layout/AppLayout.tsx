@@ -37,6 +37,7 @@ const navigation = [
 const adminNavigation = [
   { name: "Dashboard", href: "/", icon: LayoutDashboard },
   { name: "Patients", href: "/patients", icon: Users },
+  { name: "Specialists", href: "/specialists", icon: Users },
   { name: "Robot Fleet", href: "/robot-fleet", icon: Bot },
   { name: "Route Planning", href: "/routes", icon: MapPin },
   { name: "Schedule", href: "/schedule", icon: Calendar },
