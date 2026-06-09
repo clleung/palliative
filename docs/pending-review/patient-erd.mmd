@@ -1,0 +1,115 @@
+erDiagram
+  patients {
+    uuid id PK
+    text first_name
+    text last_name
+    date date_of_birth
+    patient_status status
+    patient_priority priority
+    text story
+    text prognosis
+    insurance_type insurance_type
+    date insurance_auth_expires_at
+    text insurance_auth_number
+    text street_address
+    text city
+    text state
+    text zip
+    decimal latitude
+    decimal longitude
+    uuid assigned_worker_id FK
+    boolean is_active
+    timestamptz created_at
+    timestamptz updated_at
+  }
+  patient_conditions {
+    uuid id PK
+    uuid patient_id FK
+    condition_type type
+    text notes
+    timestamptz created_at
+  }
+  patient_consents {
+    uuid id PK
+    uuid patient_id FK
+    text consent_type
+    consent_status status
+    timestamptz granted_at
+    timestamptz expires_at
+    uuid recorded_by FK
+    text notes
+  }
+  patient_medications {
+    uuid id PK
+    uuid patient_id FK
+    text name
+    text dosage
+    text schedule
+    text route
+    boolean is_high_risk
+    boolean is_narcotic
+    text prescriber
+    timestamptz created_at
+  }
+  patient_equipment {
+    uuid id PK
+    uuid patient_id FK
+    equipment_type type
+    text serial_number
+    equipment_status status
+    text notes
+    timestamptz assigned_at
+    timestamptz removed_at
+  }
+  device_readings {
+    uuid id PK
+    uuid patient_id FK
+    uuid robot_id FK
+    reading_type type
+    decimal value_numeric
+    int value_systolic
+    int value_diastolic
+    text unit
+    timestamptz recorded_at
+    uuid recorded_by FK
+  }
+  visits {
+    uuid id PK
+    uuid patient_id FK
+    uuid worker_id FK
+    visit_status status
+    visit_priority priority
+    int day_of_week
+    timestamptz scheduled_window_start
+    timestamptz scheduled_window_end
+    int travel_min_from_prior
+    int estimated_min_at_location
+    timestamptz actual_arrived_at
+    timestamptz actual_departed_at
+    decimal latitude
+    decimal longitude
+    text priority_notes
+    text notes
+    timestamptz created_at
+  }
+  care_notes {
+    uuid id PK
+    uuid patient_id FK
+    uuid worker_id FK
+    text note_text
+    text note_type
+    timestamptz created_at
+  }
+  worker_profiles { uuid id PK }
+
+  patients ||--o{ patient_conditions : "has"
+  patients ||--o{ patient_consents : "governs"
+  patients ||--o{ patient_medications : "prescribed"
+  patients ||--o{ patient_equipment : "allocated"
+  patients ||--o{ device_readings : "measured by"
+  patients ||--o{ visits : "scheduled for"
+  patients ||--o{ care_notes : "documented in"
+  worker_profiles ||--o{ visits : "assigned"
+  worker_profiles ||--o{ device_readings : "recorded by"
+  worker_profiles ||--o{ care_notes : "authored by"
+  worker_profiles ||--o{ patient_consents : "recorded by"
