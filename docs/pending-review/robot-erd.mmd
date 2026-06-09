@@ -1,0 +1,87 @@
+erDiagram
+  robots {
+    uuid id PK
+    text name
+    text serial_number
+    text model
+    robot_status status
+    int battery_pct
+    decimal latitude
+    decimal longitude
+    uuid assigned_patient_id FK
+    timestamptz last_seen_at
+    timestamptz created_at
+    timestamptz updated_at
+  }
+  robot_tasks {
+    uuid id PK
+    uuid robot_id FK
+    uuid patient_id FK
+    task_type task_type
+    task_status status
+    int priority
+    text notes
+    uuid assigned_by FK
+    timestamptz assigned_at
+    timestamptz started_at
+    timestamptz completed_at
+    text failure_reason
+    timestamptz created_at
+  }
+  robot_status_log {
+    uuid id PK
+    uuid robot_id FK
+    robot_status previous_status
+    robot_status new_status
+    text reason
+    uuid changed_by FK
+    timestamptz changed_at
+  }
+  robot_maintenance_log {
+    uuid id PK
+    uuid robot_id FK
+    maintenance_type type
+    text description
+    maintenance_status status
+    uuid technician_id FK
+    timestamptz scheduled_at
+    timestamptz started_at
+    timestamptz completed_at
+    text resolution_notes
+  }
+  device_readings {
+    uuid id PK
+    uuid patient_id FK
+    uuid robot_id FK
+    reading_type type
+    decimal value_numeric
+    int value_systolic
+    int value_diastolic
+    text unit
+    timestamptz recorded_at
+    uuid recorded_by FK
+  }
+  patients {
+    uuid id PK
+    text first_name
+    text last_name
+    patient_status status
+    patient_priority priority
+  }
+  worker_profiles {
+    uuid id PK
+    text first_name
+    text last_name
+  }
+
+  robots ||--o{ robot_tasks : "performs"
+  robots ||--o{ robot_status_log : "logs"
+  robots ||--o{ robot_maintenance_log : "tracked in"
+  robots ||--o{ device_readings : "collects"
+  robots }o--o| patients : "assigned to"
+  robot_tasks }o--o| patients : "for"
+  robot_tasks }o--o| worker_profiles : "assigned by"
+  robot_status_log }o--o| worker_profiles : "changed by"
+  robot_maintenance_log }o--o| worker_profiles : "technician"
+  device_readings }o--o| patients : "measured"
+  device_readings }o--o| worker_profiles : "recorded by"
